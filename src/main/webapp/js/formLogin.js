@@ -1,0 +1,9 @@
+$(document).ready(function(){
+    $("#myBtn1").click(function(){
+        $("#myModal1").modal();
+    });
+    $("#myBtn4").click(function(){
+        $("#myModal1").modal();
+        $('#myModal2').modal('hide');
+    });
+});

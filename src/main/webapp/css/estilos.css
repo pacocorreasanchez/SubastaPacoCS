@@ -82,12 +82,56 @@ footer div{
 }
 
 .categorias div{
-    
-    border: 5px solid black;
     display: inline-block;
-    margin: 10px;
+    box-shadow: 0px 0px 99px -12px black;
+    border-radius: 30px;
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 40px;
+    padding: 1%;
 }
 
 .categorias{
     text-align: center;
+
 }
+
+.img{
+    border-radius: 30px;
+    height: 200px;
+    width: auto;
+}
+.div-img .text {
+    border-radius: 30px;
+    display: block;
+    background-color: #5E3A73;
+    color: white;
+    padding-top: 13px;
+    padding-bottom: 13px;
+}
+
+.div-img .text:hover{
+    background-color: white;
+    color: black;
+}
+
+a{
+    text-decoration:none; 
+}
+
+
+/*---------------FORMULARIO LOGIN---------*/
+.modal-header, h4, .close {
+    background-color: #5E3A73;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+}
+.modal-footer {
+    background-color: #e6e6e6;
+}
+
+.btn-success{
+    background-color: #01CCA9;
+}
+
