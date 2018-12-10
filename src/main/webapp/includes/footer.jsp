@@ -15,9 +15,16 @@
     </head>
     <body>
         <footer>
-            <div>Redes</div>
-            <div><pc:copyright/></div>
-            <div>Sobre nosotros</div>
+            
+            
+            <div class="redes">Redes</div>
+            
+            <div class="sobreNosotros">
+                <div class="copyright">QuickBid <pc:copyright/></div>
+                <p><strong>Sobre nosotros:</strong></p>
+                <p>Somos una empresa dedicada a la subasta de productos.</p>
+                <p></p> 
+            </div>
         </footer>
     </body>
 </html>
