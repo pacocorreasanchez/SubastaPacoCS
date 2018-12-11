@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +14,7 @@
         <script src="js/jQueryJavaScriptLibraryv3.3.1.js"></script>
         <script src="js/formLogin.js"></script>
         <script src="js/formRegistro.js"></script>
+        <script src="js/errores.js"></script>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -21,9 +23,34 @@
         <title>Inicio-QuickBid</title>
     </head>
     <body>
+        
+        <!--ERROR DE ACCESO-->
+        <c:set var = "email" value = "${error}"/>
+        <c:if test = "${error != null}">
+
+            <div class="formLogin">
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4><span class="glyphicon glyphicon-lock"></span> <c:out value = "${error}"/></h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                <p>¿No eres miembro? <a id="myBtn3" type="button" href="#">Registrate</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </c:if>
 
         <div class="header">
             <a href="#" class="logo"><img id="logoQB" src="img/logosinfondo.png" /></a>
+
             <div class="header-right">
                 <a type="button" id="myBtn1" class="nonactive" href="#">Accede</a>
                 <a type="button" id="myBtn2" class="active" href="#">Registro</a>
@@ -61,29 +88,33 @@
                             <h4><span class="glyphicon glyphicon-lock"></span> Accede</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form">
+                            <form role="form" action="RedireccionAdministrador" method="post">
                                 <div class="form-group">
                                     <label for="usrname"><span class="glyphicon glyphicon-user"></span> Usuario</label>
-                                    <input type="text" class="form-control" id="usrname" placeholder="Entrar email">
+                                    <input type="text" name="email" class="form-control" id="usrname" placeholder="Introduce email">
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Contraseña</label>
-                                    <input type="password" class="form-control" id="psw" placeholder="Entrar contraseña">
+                                    <input type="password" name="contrasenia" class="form-control" id="psw" placeholder="Introduce contraseña">
                                 </div>
                                 <div class="checkbox">
                                     <label><input type="checkbox" value="" checked>Recuerdame</label>
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Accede</button>
+                                <button name="operacion" value="accede" type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Accede</button>
+
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-                            <p>¿No eres miembro? <a id="myBtn3" type="button" href="#">Registrate</a></p>
+                            
                         </div>
                     </div>
                 </div>
             </div> 
         </div>
+
+
+
 
 
         <!--FORMULARIO REGRISTRO-->

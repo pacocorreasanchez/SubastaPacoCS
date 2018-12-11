@@ -2,7 +2,7 @@ body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #e6e6e6;
-    background: transparent url(../img/pattern.png) repeat top left;
+    /*background: transparent url(../img/pattern.png) repeat top left;*/
 }
 
 #logoQB{
@@ -10,9 +10,14 @@ body {
     width: auto;
 }
 
+
 .header {
+    margin-bottom: 30px;
     overflow: hidden;
     background-color: #5E3A73;
+    -webkit-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
 }
 
 .header a {
@@ -122,6 +127,7 @@ body {
 
 /*------------FOOTER-------------*/
 footer{
+    clear: both;
     background-color: #5E3A73;
     position: fixed;
     left: 0;
@@ -129,18 +135,16 @@ footer{
     width: 100%;
     color: white;
     text-align: center;
+    -webkit-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
 }
 
 footer div{
-    border: 1px solid white;
+    display: inline-block;
+    /*border: 1px solid white;*/
     margin: 10px;
+    padding: 1%;
 }
 
-.sobreNosotros{
-    float: right;
-}
-
-.redes{
-    float: left;
-}
 

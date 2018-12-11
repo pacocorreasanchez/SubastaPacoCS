@@ -16,7 +16,7 @@
     <body>
         <footer>
             
-            <div><a href="#" class="logo"><img id="logoQB" src="img/logoPie.png" /></a></div>
+            <div><a href="#" class="logo"><img id="logoQB" src="../img/logoPie.png" /></a></div>
             <div class="copyright">QuickBid <pc:copyright/></div>
             <div class="redes">Redes</div>
             <div class="sobreNosotros">
