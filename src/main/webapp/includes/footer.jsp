@@ -16,9 +16,13 @@
     <body>
         <footer>
             
-            <div><a href="#" class="logo"><img id="logoQB" src="img/logoPie.png" /></a></div>
-            <div class="copyright">QuickBid <pc:copyright/></div>
-            <div class="redes">Redes</div>
+            <div><a href="#" class="logo"><img id="logoQB" src="img/logoPie.png" /></a><pc:copyright/></div>
+            
+            <div class="redes">
+                <a href="mailto:franciscocorreasanchez@hotmail.com"><img src="img/redes/mailto.png"/></a>
+                <a href="#"><img src="img/redes/twitter.png"/></a>
+                <a href="#"><img src="img/redes/facebook.png"/></a>
+            </div>
             <div class="sobreNosotros">
                 <p><strong>Sobre nosotros:</strong></p>
                 <p>Somos una empresa dedicada a la subasta de productos.</p>

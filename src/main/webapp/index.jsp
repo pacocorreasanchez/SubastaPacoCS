@@ -106,7 +106,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
-                            
+                            <p>¿No eres miembro? <a id="myBtn3" type="button" href="#">Registrate</a></p>
                         </div>
                     </div>
                 </div>

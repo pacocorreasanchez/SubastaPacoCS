@@ -33,6 +33,6 @@
 
 
         <!--FOOTER-->
-        <%@include file="../includes/footer_1.jsp" %>
+        <%@include file="../includes/footer.jsp" %>
     </body>
 </html>
