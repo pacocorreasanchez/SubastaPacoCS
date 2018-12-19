@@ -5,10 +5,13 @@
  */
 package es.albarregas.DAO;
 
+import es.albarregas.beans.Categoria;
+import java.util.ArrayList;
+
 /**
  *
  * @author paco
  */
 public interface ICategoriasDAO {
-    
+    public ArrayList<Categoria> obtenerCategorias();
 }

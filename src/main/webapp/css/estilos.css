@@ -125,11 +125,28 @@ body {
 }
 
 
-/*------------FOOTER-------------*/
+/*------------FOOTER-------------
 footer{
+    display: inline-block;
     clear: both;
     background-color: #5E3A73;
     position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    -webkit-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    -moz-box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+    box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
+}*/
+
+footer{
+    clear: both;
+    display: inline-block;
+    position: relative;
+    background-color: #5E3A73;
+    margin-top: 100px;
     left: 0;
     bottom: 0;
     width: 100%;

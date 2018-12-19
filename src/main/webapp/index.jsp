@@ -58,6 +58,7 @@
         </div>
 
         <!--CATEGORIAS-->
+        <!--
         <div class="categorias">
             <div class="div-img" >
                 <a class="img" href="#"><img class="img" src="img/arte.jpg" title="Arte" alt="Arte"></a>
@@ -72,7 +73,16 @@
                 <a class="img" href="#"><div class="text">VEHICULOS</div></a>
             </div>
         </div>
-
+        -->
+        <div class="categorias">
+                <c:forEach var="c" items="${applicationScope.categorias}">
+                    <div class="div-img" >
+                        <a class="img" href="#"><img class="img" src="img/arte.jpg" title="Arte" alt="Arte"></a>
+                        <!--<a class="img" href="#"><img class="img" src="${c.imagen}" title="Arte" alt="Arte"></a>-->
+                        <a class="img" href="#"><div class="text">${c.denominacion}</div></a>
+                    </div>
+                </c:forEach>
+            </div>
 
         <!--FORMULARIO LOGIN-->
         <div class="formLogin">
