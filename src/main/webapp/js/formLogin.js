@@ -6,4 +6,9 @@ $(document).ready(function(){
         $("#myModal1").modal();
         $('#myModal2').modal('hide');
     });
+    $("#myBtn3").click(function(){
+        $("#myModal2").modal();
+        $('#myModal1').modal('hide');
+    });
+    
 });

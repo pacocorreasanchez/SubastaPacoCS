@@ -6,6 +6,7 @@
 package es.albarregas.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -21,6 +22,9 @@ public class Articulo implements Serializable{
     private Date fechaInicio;
     private Date fechaFin;
     private double importeSalida;
+    private ArrayList<Fotografia> fotografias;
+    private ArrayList<CaracYArt> caracteristicas;
+    private ArrayList<Puja> pujas;
 
     /**
      * @return the idArticulo
@@ -132,6 +136,48 @@ public class Articulo implements Serializable{
      */
     public void setImporteSalida(double importeSalida) {
         this.importeSalida = importeSalida;
+    }
+
+    /**
+     * @return the fotografias
+     */
+    public ArrayList<Fotografia> getFotografias() {
+        return fotografias;
+    }
+
+    /**
+     * @param fotografias the fotografias to set
+     */
+    public void setFotografias(ArrayList<Fotografia> fotografias) {
+        this.fotografias = fotografias;
+    }
+
+    /**
+     * @return the caracteristicas
+     */
+    public ArrayList<CaracYArt> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    /**
+     * @param caracteristicas the caracteristicas to set
+     */
+    public void setCaracteristicas(ArrayList<CaracYArt> caracteristicas) {
+        this.caracteristicas = caracteristicas;
+    }
+
+    /**
+     * @return the pujas
+     */
+    public ArrayList<Puja> getPujas() {
+        return pujas;
+    }
+
+    /**
+     * @param pujas the pujas to set
+     */
+    public void setPujas(ArrayList<Puja> pujas) {
+        this.pujas = pujas;
     }
     
     

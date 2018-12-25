@@ -22,7 +22,6 @@ public class Usuario implements Serializable{
     private String bloqueado;
     private int valorMas;
     private int valorMenos;
-    //incluimos la variable de tipo Cliente porque un cliente es un usuario
     private Cliente cliente;
 
     /**

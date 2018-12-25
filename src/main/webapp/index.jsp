@@ -57,23 +57,7 @@
             </div>
         </div>
 
-        <!--CATEGORIAS-->
-        <!--
-        <div class="categorias">
-            <div class="div-img" >
-                <a class="img" href="#"><img class="img" src="img/arte.jpg" title="Arte" alt="Arte"></a>
-                <a class="img" href="#"><div class="text">ARTE</div></a>
-            </div>
-            <div class="div-img">
-                <a class="img" href="#"><img class="img" src="img/embarcacion.jpeg" title="Embarcaciones" alt="Embarcaciones"></a>
-                <a class="img" href="#"><div class="text">EMBARCACIONES</div></a>
-            </div>
-            <div class="div-img">
-                <a class="img" href="#"><img class="img" src="img/vehiculo.jpg" title="Vehículos" alt="Vehículos"></a>
-                <a class="img" href="#"><div class="text">VEHICULOS</div></a>
-            </div>
-        </div>
-        -->
+        
         <div class="categorias">
                 <c:forEach var="c" items="${applicationScope.categorias}">
                     <div class="div-img" >
@@ -98,7 +82,7 @@
                             <h4><span class="glyphicon glyphicon-lock"></span> Accede</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form" action="RedireccionAdministrador" method="post">
+                            <form role="form" action="RedireccionUsuarios" method="post">
                                 <div class="form-group">
                                     <label for="usrname"><span class="glyphicon glyphicon-user"></span> Usuario</label>
                                     <input type="text" name="email" class="form-control" id="usrname" placeholder="Introduce email">
@@ -164,15 +148,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> *NIF</label>
-                                    <input type="text" class="form-control" id="" placeholder="nif">
+                                    <input type="text" class="form-control"  placeholder="nif">
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> *Dirección</label>
-                                    <input type="text" class="form-control" id="" placeholder="dirección">
+                                    <input type="text" class="form-control"  placeholder="dirección">
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> Teléfono</label>
-                                    <input type="number" class="form-control" id="" placeholder="teléfono">
+                                    <input type="number" class="form-control"  placeholder="teléfono">
                                 </div>
                                 <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Registrar</button>
                             </form>

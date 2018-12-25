@@ -5,10 +5,13 @@
  */
 package es.albarregas.DAO;
 
+import es.albarregas.beans.Usuario;
+
 /**
  *
  * @author paco
  */
 public interface IUsuariosDAO {
-    
+    public Usuario getUsuarioAdministrador(Usuario usuario);
+    public Usuario getUsuarioEstandar(Usuario usuario);
 }

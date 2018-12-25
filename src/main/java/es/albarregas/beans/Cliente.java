@@ -6,6 +6,7 @@
 package es.albarregas.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,6 +21,8 @@ public class Cliente implements Serializable{
     private String direccion;
     private String telefono;
     private String avatar;
+    private ArrayList<Articulo> articulos;
+    private ArrayList<Puja> pujas;
 
     /**
      * @return the idCliente
@@ -131,6 +134,34 @@ public class Cliente implements Serializable{
      */
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    /**
+     * @return the articulos
+     */
+    public ArrayList<Articulo> getArticulos() {
+        return articulos;
+    }
+
+    /**
+     * @param articulos the articulos to set
+     */
+    public void setArticulos(ArrayList<Articulo> articulos) {
+        this.articulos = articulos;
+    }
+
+    /**
+     * @return the pujas
+     */
+    public ArrayList<Puja> getPujas() {
+        return pujas;
+    }
+
+    /**
+     * @param pujas the pujas to set
+     */
+    public void setPujas(ArrayList<Puja> pujas) {
+        this.pujas = pujas;
     }
     
     

@@ -21,34 +21,36 @@ import javax.servlet.annotation.WebListener;
  * @author paco
  */
 @WebListener //IMPORTANTE PONER ESTA ANOTACION, SI NO, NO FUNCIONA
-public class CategoriasApplication implements ServletContextListener{
+public class CategoriasApplication implements ServletContextListener {
+
     /**
-     * Metemos a las categorías en el ámbito de la aplicación para que siempre estén disponibles
-     * @param sce 
+     * Metemos a las categorías en el ámbito de la aplicación para que siempre
+     * estén disponibles
+     *
+     * @param sce
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext application = sce.getServletContext();
-        
+
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         ICategoriasDAO odao = daof.getCategoriasDAO();
         ArrayList<Categoria> categorias = odao.obtenerCategorias();
-        
-        synchronized(application){
+
+        synchronized (application) {
             application.setAttribute("categorias", categorias);
         }
-        
-        
+
     }
 
     /**
-     * 
-     * @param sce 
+     *
+     * @param sce
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext application = sce.getServletContext();
-         application.removeAttribute("categorias");
+        application.removeAttribute("categorias");
     }
-    
+
 }

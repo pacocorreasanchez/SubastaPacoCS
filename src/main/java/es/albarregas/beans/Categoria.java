@@ -6,6 +6,7 @@
 package es.albarregas.beans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,6 +16,7 @@ public class Categoria implements Serializable{
     private int idCategoria;
     private String denominacion;
     private String imagen;
+    private ArrayList<Caracteristica> caracteristicas;
 
     /**
      * @return the idCategoria
@@ -56,6 +58,20 @@ public class Categoria implements Serializable{
      */
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    /**
+     * @return the caracteristicas
+     */
+    public ArrayList<Caracteristica> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    /**
+     * @param caracteristicas the caracteristicas to set
+     */
+    public void setCaracteristicas(ArrayList<Caracteristica> caracteristicas) {
+        this.caracteristicas = caracteristicas;
     }
     
     
