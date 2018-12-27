@@ -125,40 +125,40 @@
                             <h4><span class="glyphicon glyphicon-lock"></span> Registro</h4>
                         </div>
                         <div class="modal-body" style="padding:40px 50px;">
-                            <form role="form">
+                            <form action="UsuariosYClientes" method="post" role="form">
                                 <div class="form-group">
                                     <label for="nombre"></span> *Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="nombre">
+                                    <input type="text" name="nombreRegistro" class="form-control" id="nombre" placeholder="nombre">
                                 </div>
                                 <div class="form-group">
                                     <label for="ape1"></span> *Primer apellido</label>
-                                    <input type="text" class="form-control" id="ape1" placeholder="apellido 1">
+                                    <input type="text" name="ape1Registro" class="form-control" id="ape1" placeholder="apellido 1">
                                 </div>
                                 <div class="form-group">
                                     <label for="ape2"></span> *Segundo apellido</label>
-                                    <input type="text" class="form-control" id="ap2" placeholder="apellido 2">
+                                    <input type="text" name="ape2Registro" class="form-control" id="ap2" placeholder="apellido 2">
                                 </div>
                                 <div class="form-group">
                                     <label for="email"></span> *Email</label>
-                                    <input type="text" class="form-control" id="email" placeholder="email">
+                                    <input type="text" name="emailRegistro" class="form-control" id="email" placeholder="email">
                                 </div>
                                 <div class="form-group">
                                     <label for="psw"></span> *Contraseña</label>
-                                    <input type="password" class="form-control" id="psw" placeholder="contraseña">
+                                    <input type="password" name="contraseniaResgistro" class="form-control" id="psw" placeholder="contraseña">
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> *NIF</label>
-                                    <input type="text" class="form-control"  placeholder="nif">
+                                    <input type="text" name="nif" class="form-control"  placeholder="nif">
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> *Dirección</label>
-                                    <input type="text" class="form-control"  placeholder="dirección">
+                                    <input type="text" name="direccion" class="form-control"  placeholder="dirección">
                                 </div>
                                 <div class="form-group">
                                     <label for=""></span> Teléfono</label>
-                                    <input type="number" class="form-control"  placeholder="teléfono">
+                                    <input type="number" name="telefono" class="form-control"  placeholder="teléfono">
                                 </div>
-                                <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Registrar</button>
+                                <button type="submit" name="operacion" value="registrar" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Registrar</button>
                             </form>
                         </div>
                         <div class="modal-footer">

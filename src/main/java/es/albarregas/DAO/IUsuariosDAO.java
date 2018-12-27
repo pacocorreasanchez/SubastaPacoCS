@@ -12,6 +12,7 @@ import es.albarregas.beans.Usuario;
  * @author paco
  */
 public interface IUsuariosDAO {
-    public Usuario getUsuarioAdministrador(Usuario usuario);
-    public Usuario getUsuarioEstandar(Usuario usuario);
+    public Usuario getUsuarios(Usuario usuario);
+    public Usuario getUsuariosID(Usuario usuario);
+    public Boolean insertUsuario(Usuario usuario);
 }

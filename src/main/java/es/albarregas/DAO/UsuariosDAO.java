@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -18,16 +19,27 @@ import java.sql.SQLException;
 public class UsuariosDAO implements IUsuariosDAO {
 
     @Override
-    public Usuario getUsuarioAdministrador(Usuario usuario) {
-        String sql = "select * from usuarios where email='admin@admin.com' and password=md5('admin') and tipoAcceso='a'";
+    public Usuario getUsuarios(Usuario usuario) {
+        Connection conexion = null;
+        String sql = "select * from usuarios where email=? and password=md5(?) and bloqueado='n'";
         try {
-            PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(sql);
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, usuario.getEmail());
+            statement.setString(2, usuario.getPassword());
+
             ResultSet resultado = statement.executeQuery();
             Usuario usuarioLogin = null;
             if (resultado.next()) {
                 usuarioLogin = new Usuario();
                 usuarioLogin.setIdUsuario(resultado.getInt("idUsuario"));
                 usuarioLogin.setEmail(resultado.getString("email"));
+                usuarioLogin.setTipoAcceso(resultado.getString("tipoAcceso"));
+                usuarioLogin.setBloqueado(resultado.getString("bloqueado"));
+                usuarioLogin.setUltimoAcceso(resultado.getDate("ultimoAcceso"));
+                usuarioLogin.setValorMas(resultado.getInt("valorMas"));
+                usuarioLogin.setValorMenos(resultado.getInt("valorMenos"));
                 resultado.close();
                 return usuarioLogin;
             }
@@ -35,26 +47,53 @@ public class UsuariosDAO implements IUsuariosDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            ConnectionFactory.closeConnection();
         }
-        
+
         return null;
     }
 
     @Override
-    public Usuario getUsuarioEstandar(Usuario usuario) {
-        String sql = "select * from usuarios where email=? and password=md5(?) and bloqueado='n' and tipoAcceso='u'";
-        
+    public Boolean insertUsuario(Usuario usuario) {
+        Connection conexion = null;
+        String sql = "insert into usuarios (email, password, ultimoAcceso) values(?,md5(?), now())";
         try {
-            PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(sql);
-            statement.setString(1,usuario.getEmail());
-	   statement.setString(2,usuario.getPassword());
-           
+            
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, usuario.getEmail());
+            statement.setString(2, usuario.getPassword());
+            System.out.println(statement);
+            statement.executeUpdate();
+
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        
+        return true;
+    }
+
+    @Override
+    public Usuario getUsuariosID(Usuario usuario) {
+        Connection conexion = null;
+        String sql = "select idUsuario from usuarios where email=?";
+        try {
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, usuario.getEmail());
+
             ResultSet resultado = statement.executeQuery();
             Usuario usuarioLogin = null;
             if (resultado.next()) {
                 usuarioLogin = new Usuario();
                 usuarioLogin.setIdUsuario(resultado.getInt("idUsuario"));
-                usuarioLogin.setEmail(resultado.getString("email"));
                 resultado.close();
                 return usuarioLogin;
             }
@@ -62,7 +101,10 @@ public class UsuariosDAO implements IUsuariosDAO {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
-        } 
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
         return null;
     }
 

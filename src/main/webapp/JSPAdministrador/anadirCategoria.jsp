@@ -1,6 +1,6 @@
 <%-- 
-    Document   : principalAdministrador
-    Created on : 11 dic. 2018, 16:35:51
+    Document   : anadirCategoria
+    Created on : 26 dic. 2018, 16:19:07
     Author     : paco
 --%>
 
@@ -12,22 +12,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="../css/estilos.css">
         <link rel="stylesheet" content="text/css" href="../css/estilosAdministrador.css">
-        <title>Administrador-Inicio</title>
+        <title>Añadir categoríra</title>
     </head>
     <body>
-        <!--<ul>
-            <li><a name="operacion" value="" href="JSPAdministrador/principalAdministrador.jsp">Inicio</a></li>
-            <li class="dropdown">
-                <a  name="operacion" value="" href="#" class="dropbtn">Usuarios</a>
-                <div class="dropdown-content">
-                    <a  name="operacion" value="" href="#">Bloquear</a>
-                    <a  name="operacion" value="" href="#">Desbloquear</a>
-                </div>
-            </li>
-            <li><a  name="operacion" value="" href="#">Copias de seguridad</a></li>
-            <li><a  name="operacion" value="anadirCategoria" href="JSPAdministrador/anadirCategoria.jsp">Añadir categoría</a></li>
-            <li><a  name="operacion" value="salir" href="index.jsp">Salir</a></li>
-        </ul>-->
         <form action="AccionesAdministrador" method="post">
             <ul>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Inicio"/></li>
@@ -42,6 +29,23 @@
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Añadir categoría" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
             </ul>
+        </form>
+
+        <h1>Añade una nueva categoría</h1>
+        <form action="AccionesAdministrador" method="post">
+            <fieldset style="padding-left: 20px;">
+                <legend>Datos del artículo</legend>
+                <label for="deno">Denominación:</label>
+                <input type="text" id="deno" name="denominacion" required="required" class="form-control"/>
+                <br>
+                <label for="ft">Fotos (png y como máximo 100 KB): </label>
+                <input id="ft" type="file" name="fotos[]" multiple  class="form-control">
+            </fieldset>
+            <br>
+            <button type="submit" value="realizar" name="operacion">Añadir</button>
+            <button type="submit" value="cancelar" name="operacion">Cancelar</button>
+
+
         </form>
 
 

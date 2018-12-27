@@ -5,10 +5,13 @@
  */
 package es.albarregas.DAO;
 
+import es.albarregas.beans.Cliente;
+
 /**
  *
  * @author paco
  */
 public interface IClientesDAO {
-    
+    public Cliente getClientes(Cliente cliente);
+    public Boolean insertCliente(Cliente cliente);
 }

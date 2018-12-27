@@ -37,52 +37,47 @@ public class RedireccionUsuarios extends HttpServlet {
         String url = "index.jsp";
         HttpSession sesion = request.getSession();
 
-        if (request.getParameter("operacion").equals("accede") && loginAdministrador(request, sesion)) {
-            url = "JSPAdministrador/principalAdministrador.jsp";
+        if (request.getParameter("operacion").equals("accede")) {
+            loginUsuario(request,response, sesion, url);
         } else {
             request.setAttribute("error", "Usuario no registrado.");
             url = "index.jsp";
         }
 
-        if (request.getParameter("operacion").equals("accede") && loginUsuarios(request, sesion)) {
-            url = "jsp/usuarios.jsp";
-        } else {
-            request.setAttribute("error", "Usuario no registrado.");
-            url = "index.jsp";
-        }
         request.getRequestDispatcher(url).forward(request, response);
     }
 
 
 
-    public boolean loginAdministrador(HttpServletRequest request, HttpSession sesion) {
-
+    public boolean loginUsuario(HttpServletRequest request, HttpServletResponse response, HttpSession sesion, String url) throws ServletException, IOException {
+        
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getParameter("email"));
         usuario.setPassword(request.getParameter("contrasenia"));
-        usuario.setTipoAcceso(request.getParameter("a"));
 
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IUsuariosDAO odao = daof.getUsuarioDAO();
-        Usuario adminUsuario = odao.getUsuarioAdministrador(usuario);
+        Usuario usuarioLogeado = odao.getUsuarios(usuario);
 
-        sesion.setAttribute("adminUsuario", adminUsuario);
-        return adminUsuario != null;
+        //meter en un if else
+        if(usuarioLogeado != null){
+            sesion.setAttribute("usuarioLogeado", usuarioLogeado);
+        } else{
+            usuarioLogeado = null;
+        }
+        
+        
+        //lo mismo pero con cliente(coger del dao de cliente)
+        
+        
+        if(usuarioLogeado.getTipoAcceso().equals("a")){
+            url = "JSPAdministrador/principalAdministrador.jsp";
+        } else{
+            url = "jsp/usuarios.jsp";
+        }
+        
+        request.getRequestDispatcher(url).forward(request, response);
+        return usuarioLogeado != null;
     }
 
-    public boolean loginUsuarios(HttpServletRequest request, HttpSession sesion) {
-
-        Usuario usuario = new Usuario();
-        usuario.setEmail(request.getParameter("email"));
-        usuario.setPassword(request.getParameter("contrasenia"));
-        usuario.setTipoAcceso(request.getParameter("u"));
-        usuario.setBloqueado(request.getParameter("n"));
-
-        DAOFactory daof = DAOFactory.getDAOFactory(1);
-        IUsuariosDAO odao = daof.getUsuarioDAO();
-        Usuario usuarioEstandar = odao.getUsuarioEstandar(usuario);
-
-        sesion.setAttribute("usuarioEstandar", usuarioEstandar);
-        return usuarioEstandar != null;
-    }
 }

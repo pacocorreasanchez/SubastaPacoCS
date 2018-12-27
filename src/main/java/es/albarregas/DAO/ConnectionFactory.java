@@ -6,7 +6,6 @@
 package es.albarregas.DAO;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +21,9 @@ import javax.sql.DataSource;
 public class ConnectionFactory {
 
     private static DataSource data = null;
+    private static Connection conexion = null;
 
     public static Connection getConnection() {
-        Connection conexion = null;
         try {
             Context initialContext = new InitialContext();
             data = (DataSource) initialContext.lookup("java:comp/env/jdbc/subastas");
@@ -45,7 +44,7 @@ public class ConnectionFactory {
         return null;
     }
 
-    public static void closeConnection(Connection conexion) {
+    public static void closeConnection() {
         try {
             conexion.close();
         } catch (SQLException e) {

@@ -8,6 +8,7 @@ package es.albarregas.DAO;
 import es.albarregas.beans.Caracteristica;
 import es.albarregas.beans.Categoria;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -42,9 +43,36 @@ public class CategoriasDAO implements ICategoriasDAO {
          } catch (SQLException ex) {
              ex.printStackTrace();
          }finally{
-             ConnectionFactory.closeConnection(conexion);
+             ConnectionFactory.closeConnection();
          }
         return categorias; 
     }
+
+    @Override
+    public Boolean categoriaNueva(Categoria categoria) {
+        Boolean retorno = true;
+        String sql = "insert into categorias (denominacion, imagen) values (?,?)";
+        Connection conexion = null;
+        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
+        
+        try{
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, categoria.getDenominacion());
+            statement.setString(2, categoria.getImagen());
+            
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoriasDAO.class.getName()).log(Level.SEVERE, null, ex);
+            retorno = false;
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        
+        
+        return retorno;
+    }
+        
 
 }

@@ -20,7 +20,7 @@ body {
     box-shadow: 0px 0px 29px 10px rgba(0,0,0,0.28);
 }
 
-.header a {
+.header a, .menuAdmin[type=submit] {
     float: left;
     color: black;
     text-align: center;
@@ -37,7 +37,7 @@ body {
 
 
 
-.header a.active {
+.header a.active, .menuAdmin[type=submit] {
     background-color: #01CCA9;
     color: white;
     box-shadow: 0px 0px 99px -12px rgba(255,255,255,1);
@@ -57,6 +57,11 @@ body {
 .header-right {
     float: right;
     margin-top: 1%;
+}
+
+.menuAdmin[type=submit]{
+    background-color: #01CCA9;
+    display: inline-block;
 }
 
 /*@media screen and (max-width: 500px) {
@@ -107,7 +112,10 @@ body {
     color: black;
 }
 
-
+/*form {
+    height: 100vh;
+    display: block;
+}*/
 
 /*---------------FORMULARIO LOGIN---------*/
 .modal-header, h4, .close {
@@ -142,9 +150,8 @@ footer{
 }*/
 
 footer{
-    clear: both;
+    position: fixed;
     display: inline-block;
-    position: relative;
     background-color: #5E3A73;
     margin-top: 100px;
     left: 0;
