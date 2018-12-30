@@ -14,5 +14,5 @@ import java.util.ArrayList;
  */
 public interface ICategoriasDAO {
     public ArrayList<Categoria> obtenerCategorias();
-    public Boolean categoriaNueva(Categoria categoria);
+    //public Boolean categoriaNueva(Categoria categoria);
 }

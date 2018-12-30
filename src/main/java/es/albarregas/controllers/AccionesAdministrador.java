@@ -41,25 +41,25 @@ public class AccionesAdministrador extends HttpServlet {
         if (request.getParameter("operacion").equals("salir")) {
             url = "index.jsp";
         }
-        if (request.getParameter("operacion").startsWith("Añadir")) {
+        /*if (request.getParameter("operacion").startsWith("Añadir")) {
             url = "JSPAdministrador/anadirCategoria.jsp";
         }
         if (request.getParameter("operacion").equals("realizar")) {
             anadirCategoria(request, response, url);
-        }
+        }*/
 
         request.getRequestDispatcher(url).forward(request, response);
     }
 
-    public void anadirCategoria(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
+    /*public void anadirCategoria(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         Categoria categoria = new Categoria();
         
         categoria.setDenominacion(request.getParameter("denominacion"));
         
-        /*if(request.getParameter("fotos[]")){
+        if(request.getParameter("fotos[]")){
             
         }
-        categoria.setImagen(request.getParameter(""));*/
+        categoria.setImagen(request.getParameter(""));
 
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         ICategoriasDAO odao = daof.getCategoriasDAO();
@@ -71,6 +71,6 @@ public class AccionesAdministrador extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
         
         
-    }
+    }*/
 
 }

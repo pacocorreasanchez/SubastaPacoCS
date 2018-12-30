@@ -48,12 +48,11 @@ public class CategoriasDAO implements ICategoriasDAO {
         return categorias; 
     }
 
-    @Override
+    /*@Override
     public Boolean categoriaNueva(Categoria categoria) {
         Boolean retorno = true;
         String sql = "insert into categorias (denominacion, imagen) values (?,?)";
         Connection conexion = null;
-        ArrayList<Categoria> categorias = new ArrayList<Categoria>();
         
         try{
             conexion = ConnectionFactory.getConnection();
@@ -72,7 +71,7 @@ public class CategoriasDAO implements ICategoriasDAO {
         
         
         return retorno;
-    }
+    }*/
         
 
 }

@@ -6,15 +6,14 @@
 package es.albarregas.DAO;
 
 import es.albarregas.beans.Articulo;
-import es.albarregas.beans.Cliente;
-import es.albarregas.beans.Puja;
+import es.albarregas.beans.Fotografia;
 import java.util.ArrayList;
 
 /**
  *
  * @author paco
  */
-public interface IPujasDAO {
-    public ArrayList<Puja> obtenerPujas();
-    public Boolean newPuja(Puja puja, Cliente cliente, Articulo articulo);
+public interface IFotografiaDAO {
+    public ArrayList<Fotografia> getFotografia();
+    public Boolean insertarFoto(Fotografia fotografia, Articulo articulo);
 }

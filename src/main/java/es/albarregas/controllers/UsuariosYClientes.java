@@ -25,8 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UsuariosYClientes", urlPatterns = {"/UsuariosYClientes"})
 public class UsuariosYClientes extends HttpServlet {
 
-
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -38,60 +36,77 @@ public class UsuariosYClientes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        String url="";
-        
+
+        String url = "";
+
         if (request.getParameter("operacion").equals("registrar")) {
             insertarUsuario(request, response, url);
         }
+        
+        if (request.getParameter("operacion").equals("Salir")) {
+            url="index.jsp";
+        }
+        
+        if (request.getParameter("operacion").equals("Inicio")) {
+            url="jsp/usuarios.jsp";
+        }
+        
+        if (request.getParameter("operacion").startsWith("Subir")) {
+            insertarPuja(request, response, url);
+        }
+        
+        
+        if (request.getParameter("operacion").startsWith("Actualizar")) {
+            url="jsp/actualizar.jsp";
+        }
+        
 
         request.getRequestDispatcher(url).forward(request, response);
     }
 
-    public void insertarUsuario(HttpServletRequest request, HttpServletResponse response, String url){
+    public void insertarUsuario(HttpServletRequest request, HttpServletResponse response, String url) {
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
-        
+
         usuario.setEmail(request.getParameter("emailRegistro"));
         usuario.setPassword(request.getParameter("contraseniaResgistro"));
-        
-        
+
         cliente.setNombre(request.getParameter("nombreRegistro"));
         cliente.setApellido1(request.getParameter("ape1Registro"));
         cliente.setApellido2(request.getParameter("ape2Registro"));
         cliente.setDireccion(request.getParameter("direccion"));
         cliente.setNif(request.getParameter("nif"));
         cliente.setTelefono(request.getParameter("telefono"));
-        
+
         usuario.setCliente(cliente);
-        
-        
+
         //si no viene avatar por avatar.png
-        if(request.getParameter("avatar") == null || request.getParameter("avatar").length() < 1){
+        if (request.getParameter("avatar") == null || request.getParameter("avatar").length() < 1) {
             usuario.getCliente().setAvatar("avatar.png");
-        }else{
+        } else {
             usuario.getCliente().setAvatar(request.getParameter("avatar"));
         }
-        
+
         DAOFactory daof = DAOFactory.getDAOFactory(1);
-        
+
         IUsuariosDAO odaoUser = daof.getUsuarioDAO();
         odaoUser.insertUsuario(usuario);
-        
-        
-        
+
         Usuario us = null;
         us = odaoUser.getUsuariosID(usuario);
-        
+
         cliente.setIdCliente(us.getIdUsuario());
-        
+
         IClientesDAO odaoClient = daof.getClientesDAO();
         odaoClient.insertCliente(cliente);
-        
-        
-        
-        
-        //notificar al usuario que se ha completado
+
+        //notificar al usuario que se ha completado el registro
+        if (usuario != null && cliente != null) {
+            request.setAttribute("registroCorrecto", "Se ha efectuado correctamente el registro");
+        }
     }
 
+    public void insertarPuja(HttpServletRequest request, HttpServletResponse response, String url) {
+
+    }
 }

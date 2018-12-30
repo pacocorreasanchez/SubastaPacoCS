@@ -47,6 +47,31 @@
                 </div> 
             </div>
         </c:if>
+        
+        
+        <!--ACCESO CORRECTO-->
+        <c:set var = "email" value = "${registroCorrecto}"/>
+        <c:if test = "${registroCorrecto != null}">
+
+            <div class="formLogin">
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4><span class="glyphicon glyphicon-lock"></span> <c:out value = "${registroCorrecto}"/></h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button style="background-color: #01CCA9" type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span ></span> Aceptar</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </c:if>
 
         <div class="header">
             <a href="#" class="logo"><img id="logoQB" src="img/logosinfondo.png" /></a>
@@ -61,9 +86,8 @@
         <div class="categorias">
                 <c:forEach var="c" items="${applicationScope.categorias}">
                     <div class="div-img" >
-                        <a class="img" href="#"><img class="img" src="img/arte.jpg" title="Arte" alt="Arte"></a>
-                        <!--<a class="img" href="#"><img class="img" src="${c.imagen}" title="Arte" alt="Arte"></a>-->
-                        <a class="img" href="#"><div class="text">${c.denominacion}</div></a>
+                        <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
+                        <input type="submit" class="text" value="${c.denominacion}" />
                     </div>
                 </c:forEach>
             </div>

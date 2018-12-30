@@ -6,10 +6,9 @@
 package es.albarregas.DAO;
 
 import es.albarregas.beans.Articulo;
-import es.albarregas.beans.Cliente;
-import es.albarregas.beans.Puja;
+import es.albarregas.beans.CaracYArt;
+import es.albarregas.beans.Caracteristica;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,12 +21,12 @@ import java.util.logging.Logger;
  *
  * @author paco
  */
-public class PujasDAO implements IPujasDAO {
-
+public class CaracYArtDAO implements ICaracYArtDAO{
+    
     @Override
-    public ArrayList<Puja> obtenerPujas() {
-        ArrayList<Puja> pujas = new ArrayList<Puja>();
-        String sql = "select * from pujas";
+    public ArrayList<CaracYArt> obtenerCaracYArt() {
+        ArrayList<CaracYArt> carac = new ArrayList<CaracYArt>();
+        String sql = "select * from caracyart";
         Connection conexion = null;
         try {
             conexion = ConnectionFactory.getConnection();
@@ -35,12 +34,12 @@ public class PujasDAO implements IPujasDAO {
             ResultSet resultado = statement.executeQuery(sql);
 
             while (resultado.next()) {
-                Puja p = new Puja();
-                p.setIdArticulo(resultado.getInt("idArticulo"));
-                p.setIdCliente(resultado.getInt("idCliente"));
-                p.setFecha(resultado.getDate("fecha"));
-                p.setImporte(resultado.getDouble("importe"));
-                pujas.add(p);
+                CaracYArt c = new CaracYArt();
+                c.setId(resultado.getInt("id"));
+                c.setIdArticulo(resultado.getInt("idArticulo"));
+                c.setIdCaracteristica(resultado.getInt("IdCaracteristica"));
+                c.setValor(resultado.getString("valor"));
+                carac.add(c);
             }
 
         } catch (SQLException ex) {
@@ -48,21 +47,20 @@ public class PujasDAO implements IPujasDAO {
         } finally {
             ConnectionFactory.closeConnection();
         }
-        return pujas;
+        return carac;
     }
 
     @Override
-    public Boolean newPuja(Puja puja, Cliente cliente, Articulo articulo) {
-        Boolean retorno = true;
-        String sql = "insert into pujas (idCliente, idArticulo, fecha, importe) values ((select idCliente from clientes where idCliente="+cliente.getIdCliente()+"),(select idArticulo from articulos where idArticulo="+articulo.getIdArticulo()+"),?,?)";
+    public Boolean newCaractYArt(CaracYArt caracYArt, Articulo articulo, Caracteristica caracteristica) {
+    Boolean retorno = true;
+        String sql = "insert into caracyart (idArticulo, idCaracteristica, valor) values ((select idArticulo from articulos where idArticulo="+articulo.getIdArticulo()+"),(select idCaracteristica from caracteristicas where idCaracteristica="+caracteristica.getIdCaracteristica()+"),?)";
         Connection conexion = null;
 
         try {
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
 
-            statement.setDate(1, (Date) puja.getFecha());
-            statement.setDouble(2, puja.getImporte());
+            statement.setString(1, caracYArt.getValor());
 
             statement.executeUpdate();
         } catch (SQLException ex) {
@@ -74,5 +72,5 @@ public class PujasDAO implements IPujasDAO {
 
         return retorno;
     }
-
+    
 }

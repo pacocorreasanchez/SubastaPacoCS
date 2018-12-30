@@ -5,16 +5,14 @@
  */
 package es.albarregas.DAO;
 
-import es.albarregas.beans.Articulo;
-import es.albarregas.beans.Cliente;
-import es.albarregas.beans.Puja;
+import es.albarregas.beans.Caracteristica;
+import es.albarregas.beans.Categoria;
 import java.util.ArrayList;
 
 /**
  *
  * @author paco
  */
-public interface IPujasDAO {
-    public ArrayList<Puja> obtenerPujas();
-    public Boolean newPuja(Puja puja, Cliente cliente, Articulo articulo);
+public interface ICaracteristicasDAO {
+    public ArrayList <Caracteristica> getCaracteristicas(Categoria categoria);
 }

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : usuarios
-    Created on : 25 dic. 2018, 17:51:27
+    Document   : actualizar
+    Created on : 30 dic. 2018, 18:25:27
     Author     : paco
 --%>
 
@@ -14,8 +14,6 @@
         <title>Bienvenida-QuickBid</title>
     </head>
     <body>
-
-
         <form action="UsuariosYClientes" method="post">
             <ul>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Inicio"/></li>
@@ -27,14 +25,6 @@
             </ul>
         </form>
 
-        <div class="categorias">
-                <c:forEach var="c" items="${applicationScope.categorias}">
-                    <div class="div-img" >
-                        <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
-                        <input style="font-size: 15px !important;" type="submit" class="text" value="${c.denominacion}" name="operacion"/>
-                    </div>
-                </c:forEach>
-            </div>
 
         <!--FOOTER-->
         <%@include file="../includes/footer.jsp" %>

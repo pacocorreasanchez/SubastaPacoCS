@@ -19,18 +19,28 @@ import java.sql.SQLException;
 public class ClientesDAO implements IClientesDAO {
 
     @Override
-    public Cliente getClientes(Cliente cliente) {
+    public Cliente getCliente(String email) {
+        Cliente cliente = null;
         Connection conexion = null;
-        String sql = "select * from clientes";
+        String sql = "select * from clientes where idCliente=(select idUsuario from usuarios where email=?)";
 
         try {
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
+            statement.setString(1, email);
+            System.out.println(statement);
             ResultSet resultado = statement.executeQuery();
 
             if (resultado.next()) {
                 cliente = new Cliente();
                 cliente.setIdCliente(resultado.getInt("idCliente"));
+                cliente.setNombre(resultado.getString("nombre"));
+                cliente.setApellido1(resultado.getString("apellido1"));
+                cliente.setApellido2(resultado.getString("apellido2"));
+                cliente.setDireccion(resultado.getString("direccion"));
+                cliente.setTelefono(resultado.getString("telefono"));
+                cliente.setNif(resultado.getString("nif"));
+                cliente.setAvatar(resultado.getString("avatar"));
                 resultado.close();
                 return cliente;
             }

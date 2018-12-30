@@ -11,7 +11,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="../css/estilos.css">
-        <link rel="stylesheet" content="text/css" href="../css/estilosAdministrador.css">
         <title>Administrador-Inicio</title>
     </head>
     <body>
@@ -39,7 +38,7 @@
                     </div>
                 </li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Copias de seguridad" /></li>
-                <li><input class="menuAdmin" type="submit" name="operacion" value="Añadir categoría" /></li>
+                <!--<li><input class="menuAdmin" type="submit" name="operacion" value="Añadir categoría" /></li>-->
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
             </ul>
         </form>

@@ -5,8 +5,10 @@
  */
 package es.albarregas.controllers;
 
+import es.albarregas.DAO.IClientesDAO;
 import es.albarregas.DAO.IUsuariosDAO;
 import es.albarregas.DAOFACTORY.DAOFactory;
+import es.albarregas.beans.Cliente;
 import es.albarregas.beans.Usuario;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -34,14 +36,11 @@ public class RedireccionUsuarios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = "index.jsp";
+        String url = "";
         HttpSession sesion = request.getSession();
 
-        if (request.getParameter("operacion").equals("accede")) {
-            loginUsuario(request,response, sesion, url);
-        } else {
+        if (request.getParameter("operacion").equals("accede") && !loginUsuario(request, response, sesion, url)) {
             request.setAttribute("error", "Usuario no registrado.");
-            url = "index.jsp";
         }
 
         request.getRequestDispatcher(url).forward(request, response);
@@ -58,16 +57,27 @@ public class RedireccionUsuarios extends HttpServlet {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IUsuariosDAO odao = daof.getUsuarioDAO();
         Usuario usuarioLogeado = odao.getUsuarios(usuario);
+        
+        Cliente cliente = new Cliente();
+        IClientesDAO odaoClient = daof.getClientesDAO();
+        cliente = odaoClient.getCliente(usuario.getEmail());
+        
+        //si el usuario es null return false
+        if(usuarioLogeado == null){
+            return false;
+        }
+        
+        
+        if(cliente!=null){
+            usuarioLogeado.setCliente(cliente);
+        }
+        
 
-        //meter en un if else
         if(usuarioLogeado != null){
             sesion.setAttribute("usuarioLogeado", usuarioLogeado);
         } else{
             usuarioLogeado = null;
         }
-        
-        
-        //lo mismo pero con cliente(coger del dao de cliente)
         
         
         if(usuarioLogeado.getTipoAcceso().equals("a")){
