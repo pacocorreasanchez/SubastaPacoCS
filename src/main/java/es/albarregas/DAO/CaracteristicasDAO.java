@@ -22,7 +22,8 @@ public class CaracteristicasDAO implements ICaracteristicasDAO{
     @Override
     public ArrayList<Caracteristica> getCaracteristicas(Categoria categoria) {
     ArrayList<Caracteristica> caracteristicas = new ArrayList<Caracteristica>();
-        String sql = "select * from caracteristicas where idCategoria=?";
+        //String sql = "select * from caracteristicas where idCategoria=?";
+        String sql = "select * from caracteristicas";
         Connection conexion = null;
         try {
             conexion = ConnectionFactory.getConnection();

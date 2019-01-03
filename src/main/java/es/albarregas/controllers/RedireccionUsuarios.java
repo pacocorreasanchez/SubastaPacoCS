@@ -75,6 +75,7 @@ public class RedireccionUsuarios extends HttpServlet {
 
         if(usuarioLogeado != null){
             sesion.setAttribute("usuarioLogeado", usuarioLogeado);
+            sesion.setAttribute("cliente", cliente);
         } else{
             usuarioLogeado = null;
         }

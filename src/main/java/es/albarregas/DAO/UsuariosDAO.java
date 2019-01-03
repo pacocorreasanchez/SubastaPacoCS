@@ -59,7 +59,7 @@ public class UsuariosDAO implements IUsuariosDAO {
         Connection conexion = null;
         String sql = "insert into usuarios (email, password, ultimoAcceso) values(?,md5(?), now())";
         try {
-            
+
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
 
@@ -68,14 +68,13 @@ public class UsuariosDAO implements IUsuariosDAO {
             System.out.println(statement);
             statement.executeUpdate();
 
-
         } catch (SQLException ex) {
             ex.printStackTrace();
             return false;
         } finally {
             ConnectionFactory.closeConnection();
         }
-        
+
         return true;
     }
 
@@ -106,6 +105,52 @@ public class UsuariosDAO implements IUsuariosDAO {
         }
 
         return null;
+    }
+
+    @Override
+    public Boolean bloquearUsuario(Usuario usuario) {
+        Connection conexion = null;
+        String sql = "update usuarios set bloqueado='s' where email=? and bloqueado='n' and tipoAcceso='u'";
+        try {
+
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, usuario.getEmail());
+            System.out.println(statement);
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean desbloquearUsuario(Usuario usuario) {
+        Connection conexion = null;
+        String sql = "update usuarios set bloqueado='n' where email=? and bloqueado='s' and tipoAcceso='u'";
+        try {
+
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, usuario.getEmail());
+            System.out.println(statement);
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return false;
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
+        return true;
     }
 
 }

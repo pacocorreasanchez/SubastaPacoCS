@@ -90,7 +90,8 @@ public class ArticulosDAO implements IArticulosDAO{
     @Override
     public Boolean newArticulo(Articulo articulo) {
         Boolean retorno = true;
-        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
+        //String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
+        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, importeSalida) values (?,?,?,?,?)";
         Connection conexion = null;
         
         try{
@@ -101,10 +102,10 @@ public class ArticulosDAO implements IArticulosDAO{
             statement.setString(2, articulo.getDescripcion());
             statement.setInt(3, articulo.getIdCategoria());
             statement.setInt(4, articulo.getIdCliente());
-            statement.setDate(5, (Date) articulo.getFechaInicio());
-            statement.setDate(6, (Date) articulo.getFechaFin());
-            statement.setDouble(7, articulo.getImporteSalida());
-            
+            //statement.setDate(5, (Date) articulo.getFechaInicio());
+            //statement.setDate(6, (Date) articulo.getFechaFin());
+            statement.setDouble(5, articulo.getImporteSalida());
+            System.out.println(statement);
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CategoriasDAO.class.getName()).log(Level.SEVERE, null, ex);

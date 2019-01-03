@@ -5,8 +5,10 @@
  */
 package es.albarregas.applications;
 
+import es.albarregas.DAO.ICaracteristicasDAO;
 import es.albarregas.DAO.ICategoriasDAO;
 import es.albarregas.DAOFACTORY.DAOFactory;
+import es.albarregas.beans.Caracteristica;
 import es.albarregas.beans.Categoria;
 
 import java.util.ArrayList;
@@ -36,9 +38,14 @@ public class CategoriasApplication implements ServletContextListener {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         ICategoriasDAO odao = daof.getCategoriasDAO();
         ArrayList<Categoria> categorias = odao.obtenerCategorias();
-
+        
+        Categoria categoria = new Categoria();
+        
+        ICaracteristicasDAO odaoCarac = daof.getCaracteristicasDAO();
+        ArrayList<Caracteristica> caracteristicas = odaoCarac.getCaracteristicas(categoria);
         synchronized (application) {
             application.setAttribute("categorias", categorias);
+            application.setAttribute("caracteristicas", caracteristicas);
         }
 
     }
@@ -51,6 +58,7 @@ public class CategoriasApplication implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContext application = sce.getServletContext();
         application.removeAttribute("categorias");
+        application.removeAttribute("caracteristicas");
     }
 
 }

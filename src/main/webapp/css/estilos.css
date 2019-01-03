@@ -64,16 +64,6 @@ body {
     display: inline-block;
 }
 
-/*@media screen and (max-width: 500px) {
-  .header a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  .header-right {
-    float: none;
-  }
-}*/
 
 
 
@@ -244,3 +234,8 @@ li.dropdown {
 }
 
 
+
+
+.caracteristicasOcultas{
+    display: none;
+}

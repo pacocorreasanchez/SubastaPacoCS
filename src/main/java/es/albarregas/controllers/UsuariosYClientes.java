@@ -5,18 +5,26 @@
  */
 package es.albarregas.controllers;
 
+import es.albarregas.DAO.IArticulosDAO;
+import es.albarregas.DAO.ICaracteristicasDAO;
 import es.albarregas.DAO.IClientesDAO;
 import es.albarregas.DAO.IUsuariosDAO;
 import es.albarregas.DAOFACTORY.DAOFactory;
+import es.albarregas.beans.Articulo;
+import es.albarregas.beans.Caracteristica;
+import es.albarregas.beans.Categoria;
 import es.albarregas.beans.Cliente;
 import es.albarregas.beans.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -52,7 +60,11 @@ public class UsuariosYClientes extends HttpServlet {
         }
         
         if (request.getParameter("operacion").startsWith("Subir")) {
-            insertarPuja(request, response, url);
+            url="jsp/crearPuja.jsp";
+        }
+        
+        if (request.getParameter("operacion").equals("subirPuja")) {
+            insertarArticulo(request, response, url);
         }
         
         
@@ -106,7 +118,34 @@ public class UsuariosYClientes extends HttpServlet {
         }
     }
 
-    public void insertarPuja(HttpServletRequest request, HttpServletResponse response, String url) {
+    public void insertarArticulo(HttpServletRequest request, HttpServletResponse response,  String url) {
+        Articulo articulo = new Articulo();
+        Cliente cliente = new Cliente();
+        Date fechaActual = new Date();
+        Categoria categoria = new Categoria();
+        HttpSession sesion = null;
+        
+        
+        categoria.setIdCategoria(Integer.parseInt(request.getParameter("opcion")));
+        categoria.setDenominacion(request.getParameter("denominacion"));
+        
+        articulo.setDescripcionCorta(request.getParameter("desCorta"));
+        articulo.setDescripcion(request.getParameter("descripcion"));
+        articulo.setIdCategoria(9);
+        articulo.setFechaInicio(fechaActual);
+        articulo.setFechaFin(fechaActual);//formatear para fechaFin
+        articulo.setImporteSalida(Double.parseDouble(request.getParameter("importe")));
+        
+        sesion.getAttribute("cliente");
+        articulo.setIdCliente(cliente.getIdCliente());
+        
+        
+        DAOFactory daof = DAOFactory.getDAOFactory(1);
 
+        IArticulosDAO odao = daof.getArticulosDAO();
+        odao.newArticulo(articulo);
+        
+        url="jsp/usuarios.jsp";
+        
     }
 }
