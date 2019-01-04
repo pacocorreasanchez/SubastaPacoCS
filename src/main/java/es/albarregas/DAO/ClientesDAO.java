@@ -60,7 +60,7 @@ public class ClientesDAO implements IClientesDAO {
         try {
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
-            
+
             statement.setString(1, cliente.getNombre());
             statement.setString(2, cliente.getApellido1());
             statement.setString(3, cliente.getApellido2());
@@ -73,6 +73,35 @@ public class ClientesDAO implements IClientesDAO {
             statement.executeUpdate();
 
         } catch (SQLException ex) {
+            return false;
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
+        return true;
+    }
+
+    @Override
+    public Boolean actualizarDatosCliente(Cliente cliente) {
+        Connection conexion = null;
+        String sql = "update clientes set nombre=?, apellido1=?, apellido2=?, direccion=?, telefono=?, avatar=? where idCliente=?";
+        try {
+
+            conexion = ConnectionFactory.getConnection();
+            PreparedStatement statement = conexion.prepareStatement(sql);
+
+            statement.setString(1, cliente.getNombre());
+            statement.setString(2, cliente.getApellido1());
+            statement.setString(3, cliente.getApellido2());
+            statement.setString(4, cliente.getDireccion());
+            statement.setString(5, cliente.getTelefono());
+            statement.setString(6, cliente.getAvatar());
+            statement.setInt(7, cliente.getIdCliente());
+            System.out.println(statement);
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
             return false;
         } finally {
             ConnectionFactory.closeConnection();

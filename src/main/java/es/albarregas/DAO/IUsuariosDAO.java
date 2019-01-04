@@ -17,4 +17,5 @@ public interface IUsuariosDAO {
     public Boolean insertUsuario(Usuario usuario);
     public Boolean bloquearUsuario(Usuario usuario);
     public Boolean desbloquearUsuario(Usuario usuario);
+    public Boolean actualizarDatosUsuario(Usuario usuario);
 }

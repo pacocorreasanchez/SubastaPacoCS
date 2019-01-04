@@ -14,17 +14,23 @@ import es.albarregas.beans.Articulo;
 import es.albarregas.beans.Caracteristica;
 import es.albarregas.beans.Categoria;
 import es.albarregas.beans.Cliente;
+import es.albarregas.beans.Puja;
 import es.albarregas.beans.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -46,32 +52,48 @@ public class UsuariosYClientes extends HttpServlet {
             throws ServletException, IOException {
 
         String url = "";
+        if (request.getParameter("operacion") != null) {
+            if (request.getParameter("operacion").equals("registrar")) {
+                insertarUsuario(request, response, url);
+            }
 
-        if (request.getParameter("operacion").equals("registrar")) {
-            insertarUsuario(request, response, url);
+            if (request.getParameter("operacion").equals("Salir")) {
+                url = "index.jsp";
+            }
+
+            if (request.getParameter("operacion").equals("Inicio")) {
+                url = "jsp/usuarios.jsp";
+            }
+
+            if (request.getParameter("operacion").startsWith("Subir")) {
+                url = "jsp/crearPuja.jsp";
+            }
+
+            if (request.getParameter("operacion").equals("subirPuja")) {
+                insertarArticulo(request, response, url);
+
+            }
+
+            if (request.getParameter("operacion").startsWith("Actualizar")) {
+                url = "jsp/actualizar.jsp";
+            }
+
+            if (request.getParameter("operacion").equals("Pujas")) {
+                url = "jsp/pujas.jsp";
+                obtenerArticulos(request, response, url);
+            }
+            if (request.getParameter("operacion").equals("guardarCambios")) {
+                actualizarDatos(request, response);
+                url = "jsp/usuarios.jsp";
+            }
         }
-        
-        if (request.getParameter("operacion").equals("Salir")) {
-            url="index.jsp";
+
+        if (request.getParameter("redireccionCategorias") != null) {
+            url = "jsp/" + request.getParameter("redireccionCategorias").toLowerCase() + ".jsp";
+            url = StringUtils.stripAccents(url);
+            obtenerArticulosXCategorias(request, response, url);
         }
-        
-        if (request.getParameter("operacion").equals("Inicio")) {
-            url="jsp/usuarios.jsp";
-        }
-        
-        if (request.getParameter("operacion").startsWith("Subir")) {
-            url="jsp/crearPuja.jsp";
-        }
-        
-        if (request.getParameter("operacion").equals("subirPuja")) {
-            insertarArticulo(request, response, url);
-        }
-        
-        
-        if (request.getParameter("operacion").startsWith("Actualizar")) {
-            url="jsp/actualizar.jsp";
-        }
-        
+        System.out.println(url);
 
         request.getRequestDispatcher(url).forward(request, response);
     }
@@ -118,34 +140,91 @@ public class UsuariosYClientes extends HttpServlet {
         }
     }
 
-    public void insertarArticulo(HttpServletRequest request, HttpServletResponse response,  String url) {
+    public void insertarArticulo(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         Articulo articulo = new Articulo();
         Cliente cliente = new Cliente();
         Date fechaActual = new Date();
+        HttpSession sesion = request.getSession();
+        try {
+            String s = request.getParameter("fechaFin");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            Date date = sdf.parse(s);
+
+            articulo.setDescripcionCorta(request.getParameter("desCorta"));
+            articulo.setDescripcion(request.getParameter("descripcion"));
+            articulo.setIdCategoria(Integer.parseInt(request.getParameter("opcion")));
+            articulo.setFechaInicio(fechaActual);
+            articulo.setFechaFin(date);
+            articulo.setImporteSalida(Double.parseDouble(request.getParameter("importe")));
+
+            cliente = (Cliente) sesion.getAttribute("cliente");
+            articulo.setIdCliente(cliente.getIdCliente());
+
+            DAOFactory daof = DAOFactory.getDAOFactory(1);
+
+            IArticulosDAO odao = daof.getArticulosDAO();
+            odao.newArticulo(articulo);
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        if (articulo != null) {
+
+            url = "jsp/usuarios.jsp";
+            request.setAttribute("pujasubida", "Se ha subido correctamente un nuevo artículo");
+        }
+
+        request.getRequestDispatcher(url).forward(request, response);
+
+    }
+
+    public void obtenerArticulos(HttpServletRequest request, HttpServletResponse response, String url) {
+        DAOFactory daof = DAOFactory.getDAOFactory(1);
+        IArticulosDAO odao = daof.getArticulosDAO();
+        ArrayList<Articulo> articulos = odao.getArticulos();
+
+        request.setAttribute("articulos", articulos);
+
+    }
+
+    public void obtenerArticulosXCategorias(HttpServletRequest request, HttpServletResponse response, String url) {
         Categoria categoria = new Categoria();
-        HttpSession sesion = null;
+        categoria.setDenominacion(request.getParameter("redireccionCategorias"));
+
+        DAOFactory daof = DAOFactory.getDAOFactory(1);
+        IArticulosDAO odao = daof.getArticulosDAO();
+        ArrayList<Articulo> articulosXcategorias = odao.getArticulosXCategorias(categoria);
+
+        request.setAttribute("articulosXcategorias", articulosXcategorias);
+    }
+    
+    public void actualizarDatos(HttpServletRequest request, HttpServletResponse response) {
+        Cliente cliente = new Cliente();
+        Usuario usuario = new Usuario();
+        HttpSession sesion = request.getSession();
+        
+        usuario.setIdUsuario(Integer.parseInt(request.getParameter("idUsuario")));
+        usuario.setEmail(request.getParameter("emailUser"));
+        usuario.setPassword(request.getParameter("passwordUser"));
         
         
-        categoria.setIdCategoria(Integer.parseInt(request.getParameter("opcion")));
-        categoria.setDenominacion(request.getParameter("denominacion"));
+        cliente.setIdCliente(Integer.parseInt(request.getParameter("idCliente")));
+        cliente.setNombre(request.getParameter("nombreUser"));
+        cliente.setApellido1(request.getParameter("apellido1User"));
+        cliente.setApellido2(request.getParameter("apellido2User"));
+        cliente.setDireccion(request.getParameter("direccionUser"));
+        cliente.setTelefono(request.getParameter("telefonoUser"));
+        cliente.setAvatar(request.getParameter("avatarUser"));
         
-        articulo.setDescripcionCorta(request.getParameter("desCorta"));
-        articulo.setDescripcion(request.getParameter("descripcion"));
-        articulo.setIdCategoria(9);
-        articulo.setFechaInicio(fechaActual);
-        articulo.setFechaFin(fechaActual);//formatear para fechaFin
-        articulo.setImporteSalida(Double.parseDouble(request.getParameter("importe")));
-        
-        sesion.getAttribute("cliente");
-        articulo.setIdCliente(cliente.getIdCliente());
         
         
         DAOFactory daof = DAOFactory.getDAOFactory(1);
+        IUsuariosDAO odao = daof.getUsuarioDAO();
+        odao.actualizarDatosUsuario(usuario);
+        
+        IClientesDAO odaoC = daof.getClientesDAO();
+        odaoC.actualizarDatosCliente(cliente);
 
-        IArticulosDAO odao = daof.getArticulosDAO();
-        odao.newArticulo(articulo);
-        
-        url="jsp/usuarios.jsp";
-        
     }
 }

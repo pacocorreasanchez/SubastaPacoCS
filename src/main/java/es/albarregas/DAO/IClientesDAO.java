@@ -14,4 +14,5 @@ import es.albarregas.beans.Cliente;
 public interface IClientesDAO {
     public Cliente getCliente(String email);
     public Boolean insertCliente(Cliente cliente);
+    public Boolean actualizarDatosCliente(Cliente cliente);
 }

@@ -42,8 +42,6 @@ public class RedireccionUsuarios extends HttpServlet {
         if (request.getParameter("operacion").equals("accede") && !loginUsuario(request, response, sesion, url)) {
             request.setAttribute("error", "Usuario no registrado.");
         }
-
-        request.getRequestDispatcher(url).forward(request, response);
     }
 
 

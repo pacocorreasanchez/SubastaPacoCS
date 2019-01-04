@@ -1,6 +1,6 @@
 <%-- 
-    Document   : usuarios
-    Created on : 25 dic. 2018, 17:51:27
+    Document   : pinturas
+    Created on : 3 ene. 2019, 18:23:53
     Author     : paco
 --%>
 
@@ -11,11 +11,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="css/estilos.css">
-        <title>Bienvenida-QuickBid</title>
+        <title>Pujas-Pinturas</title>
     </head>
     <body>
-
-
 
 
         <form action="UsuariosYClientes" method="post">
@@ -28,22 +26,19 @@
                 <h1 style="color: white; font-size: 30px; float: right; margin-right: 10px;">Hola <c:out value = "${sessionScope.usuarioLogeado.cliente.nombre}"/> <c:out value = "${sessionScope.usuarioLogeado.cliente.apellido1}"/></h1>
             </ul>
 
-            <c:if test = "${pujasubida != null}">
-                <h1>${pujasubida}</h1>
+
+            <c:if test = "${articulosXcategorias != null}">
+                <div class="categorias">
+                    <c:forEach var="art" items="${articulosXcategorias}">
+                        <div class="div-img" >
+                            <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
+                            <input style="font-size: 15px !important;" type="submit" class="text" value="${art.descripcionCorta}" name="operacion"/>
+                        </div>
+                    </c:forEach>
+                </div>
             </c:if>
 
-
-            <div class="categorias">
-                <c:forEach var="c" items="${applicationScope.categorias}">
-                    <div class="div-img" >
-                        <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
-                        <input style="font-size: 15px !important;" type="submit" class="text" value="${c.denominacion}" name="redireccionCategorias"/>
-                    </div>
-                </c:forEach>
-            </div>
         </form>
-
-
 
         <!--FOOTER-->
         <%@include file="../includes/footer.jsp" %>

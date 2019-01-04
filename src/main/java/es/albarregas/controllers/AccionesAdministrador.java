@@ -53,9 +53,15 @@ public class AccionesAdministrador extends HttpServlet {
         if (request.getParameter("operacion").equals("bloquearUser")) {
             bloquearUser(request, response, url);
         }
+        
         if (request.getParameter("operacion").equals("desbloquearUser")) {
             desBloquearUser(request, response, url);
         }
+        
+        if(request.getParameter("operacion").startsWith("Copias")){
+            
+        }
+        
         /*if (request.getParameter("operacion").startsWith("Añadir")) {
             url = "JSPAdministrador/anadirCategoria.jsp";
         }
@@ -92,6 +98,8 @@ public class AccionesAdministrador extends HttpServlet {
         
         request.getRequestDispatcher(url).forward(request, response);
     }
+    
+    
 
     /*public void anadirCategoria(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         Categoria categoria = new Categoria();

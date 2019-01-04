@@ -8,11 +8,11 @@ package es.albarregas.DAO;
 import es.albarregas.beans.Articulo;
 import es.albarregas.beans.Categoria;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,6 +44,7 @@ public class ArticulosDAO implements IArticulosDAO{
                  articulo.setImporteSalida(resultado.getDouble("importeSalida"));
                  lista.add(articulo);
              }
+             System.out.println(sql);
              resultado.close();
              
         } catch(SQLException ex){
@@ -90,8 +91,8 @@ public class ArticulosDAO implements IArticulosDAO{
     @Override
     public Boolean newArticulo(Articulo articulo) {
         Boolean retorno = true;
-        //String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
-        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, importeSalida) values (?,?,?,?,?)";
+        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
+        //String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, importeSalida) values (?,?,?,?,?)";
         Connection conexion = null;
         
         try{
@@ -102,9 +103,17 @@ public class ArticulosDAO implements IArticulosDAO{
             statement.setString(2, articulo.getDescripcion());
             statement.setInt(3, articulo.getIdCategoria());
             statement.setInt(4, articulo.getIdCliente());
-            //statement.setDate(5, (Date) articulo.getFechaInicio());
-            //statement.setDate(6, (Date) articulo.getFechaFin());
-            statement.setDouble(5, articulo.getImporteSalida());
+            
+            
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            String fechaInicio = sdf.format(articulo.getFechaInicio());
+            statement.setString(5, fechaInicio);
+            
+            String fechaFin = sdf.format(articulo.getFechaFin());
+            statement.setString(6, fechaFin);
+            
+            
+            statement.setDouble(7, articulo.getImporteSalida());
             System.out.println(statement);
             statement.executeUpdate();
         } catch (SQLException ex) {

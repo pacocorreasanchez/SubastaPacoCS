@@ -11,7 +11,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="css/estilos.css">
-        <script src="js/jQueryJavaScriptLibraryv3.3.1.js"></script>
         <script src="js/caracteristicas.js"></script>
         <title>Nueva subasta</title>
     </head>
@@ -46,7 +45,7 @@
                 </div>
                 <br>
                 <label>¿Cúando quieres que acabe tu subasta?:</label>
-                <input type="date" name="fechaFin"/><input type="time" />
+                <input type="datetime-local" name="fechaFin"/>
                 <br>
                 <label>Fotos (png y como máximo 100 KB): </label>
                 <input type="file" name="fotos" multiple />
@@ -58,9 +57,9 @@
             <button type="submit" value="subirPuja" name="operacion">Añadir puja</button>
             <button type="submit" value="cancelar" name="operacion">Cancelar</button>
         </form>
-            
-            
-            
+
+
+
         <div class="caracteristicasOcultas">
             <c:forEach var="caract" items="${applicationScope.caracteristicas}">
                 <div class="caracteristica" idCategoria="${caract.idCategoria}">
@@ -69,9 +68,12 @@
                     <br>
                 </div>
             </c:forEach>
+            <input type="hidden" name="nCampos" >
         </div>
-            
-            
+
+
+
+
         <!--FOOTER-->
         <%@include file="../includes/footer.jsp" %>
     </body>
