@@ -44,10 +44,9 @@ public class RedireccionUsuarios extends HttpServlet {
         }
     }
 
-
-
     public boolean loginUsuario(HttpServletRequest request, HttpServletResponse response, HttpSession sesion, String url) throws ServletException, IOException {
-        
+
+            
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getParameter("email"));
         usuario.setPassword(request.getParameter("contrasenia"));
@@ -55,36 +54,30 @@ public class RedireccionUsuarios extends HttpServlet {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IUsuariosDAO odao = daof.getUsuarioDAO();
         Usuario usuarioLogeado = odao.getUsuarios(usuario);
-        
+
         Cliente cliente = new Cliente();
         IClientesDAO odaoClient = daof.getClientesDAO();
         cliente = odaoClient.getCliente(usuario.getEmail());
-        
-        //si el usuario es null return false
-        if(usuarioLogeado == null){
-            return false;
-        }
-        
-        
-        if(cliente!=null){
+
+        if (cliente != null) {
             usuarioLogeado.setCliente(cliente);
         }
-        
 
-        if(usuarioLogeado != null){
+        if (usuarioLogeado != null) {
             sesion.setAttribute("usuarioLogeado", usuarioLogeado);
             sesion.setAttribute("cliente", cliente);
-        } else{
-            usuarioLogeado = null;
+
+            if (usuarioLogeado.getTipoAcceso().equals("a")) {
+                url = "JSPAdministrador/principalAdministrador.jsp";
+            } else if (usuarioLogeado.getTipoAcceso().equals("u")) {
+                url = "jsp/usuarios.jsp";
+            }
+            
+        } else {
+            url = "index.jsp";
+            request.setAttribute("userNoRegistrado", "El usuario no está registrado o es incorrecto");
         }
-        
-        
-        if(usuarioLogeado.getTipoAcceso().equals("a")){
-            url = "JSPAdministrador/principalAdministrador.jsp";
-        } else{
-            url = "jsp/usuarios.jsp";
-        }
-        
+
         request.getRequestDispatcher(url).forward(request, response);
         return usuarioLogeado != null;
     }

@@ -92,7 +92,6 @@ public class ArticulosDAO implements IArticulosDAO{
     public Boolean newArticulo(Articulo articulo) {
         Boolean retorno = true;
         String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
-        //String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, importeSalida) values (?,?,?,?,?)";
         Connection conexion = null;
         
         try{

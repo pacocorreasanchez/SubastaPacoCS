@@ -47,6 +47,27 @@
                 </div> 
             </div>
         </c:if>
+        <c:if test = "${userNoRegistrado != null}">
+
+            <div class="formLogin">
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header" style="padding:35px 50px;">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4><span class="glyphicon glyphicon-lock"></span> <c:out value = "${userNoRegistrado}"/></h4>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancelar</button>
+                                <p>¿No eres miembro? <a id="myBtn3" type="button" href="#">Registrate</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </c:if>
         
         
         <!--ACCESO CORRECTO-->

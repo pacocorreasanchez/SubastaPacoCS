@@ -8,6 +8,7 @@ package es.albarregas.controllers;
 import es.albarregas.DAO.IArticulosDAO;
 import es.albarregas.DAO.ICaracteristicasDAO;
 import es.albarregas.DAO.IClientesDAO;
+import es.albarregas.DAO.IPujasDAO;
 import es.albarregas.DAO.IUsuariosDAO;
 import es.albarregas.DAOFACTORY.DAOFactory;
 import es.albarregas.beans.Articulo;
@@ -50,8 +51,9 @@ public class UsuariosYClientes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession sesion = request.getSession();
         String url = "";
+
         if (request.getParameter("operacion") != null) {
             if (request.getParameter("operacion").equals("registrar")) {
                 insertarUsuario(request, response, url);
@@ -59,6 +61,7 @@ public class UsuariosYClientes extends HttpServlet {
 
             if (request.getParameter("operacion").equals("Salir")) {
                 url = "index.jsp";
+                sesion.invalidate();
             }
 
             if (request.getParameter("operacion").equals("Inicio")) {
@@ -80,11 +83,15 @@ public class UsuariosYClientes extends HttpServlet {
 
             if (request.getParameter("operacion").equals("Pujas")) {
                 url = "jsp/pujas.jsp";
-                obtenerArticulos(request, response, url);
+                obtenerArticulos(request, response, url); 
             }
             if (request.getParameter("operacion").equals("guardarCambios")) {
                 actualizarDatos(request, response);
                 url = "jsp/usuarios.jsp";
+            }
+            if (request.getParameter("operacion").equals("pujar")) {
+                pujar(request, response);
+                url = "jsp/pujas.jsp";
             }
         }
 
@@ -93,7 +100,6 @@ public class UsuariosYClientes extends HttpServlet {
             url = StringUtils.stripAccents(url);
             obtenerArticulosXCategorias(request, response, url);
         }
-        System.out.println(url);
 
         request.getRequestDispatcher(url).forward(request, response);
     }
@@ -180,15 +186,19 @@ public class UsuariosYClientes extends HttpServlet {
     }
 
     public void obtenerArticulos(HttpServletRequest request, HttpServletResponse response, String url) {
+        HttpSession sesion = request.getSession();
+
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IArticulosDAO odao = daof.getArticulosDAO();
         ArrayList<Articulo> articulos = odao.getArticulos();
 
-        request.setAttribute("articulos", articulos);
+        sesion.setAttribute("articulos", articulos);
 
     }
 
     public void obtenerArticulosXCategorias(HttpServletRequest request, HttpServletResponse response, String url) {
+        HttpSession sesion = request.getSession();
+
         Categoria categoria = new Categoria();
         categoria.setDenominacion(request.getParameter("redireccionCategorias"));
 
@@ -196,19 +206,17 @@ public class UsuariosYClientes extends HttpServlet {
         IArticulosDAO odao = daof.getArticulosDAO();
         ArrayList<Articulo> articulosXcategorias = odao.getArticulosXCategorias(categoria);
 
-        request.setAttribute("articulosXcategorias", articulosXcategorias);
+        sesion.setAttribute("articulosXcategorias", articulosXcategorias);
     }
-    
+
     public void actualizarDatos(HttpServletRequest request, HttpServletResponse response) {
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
         HttpSession sesion = request.getSession();
-        
+
         usuario.setIdUsuario(Integer.parseInt(request.getParameter("idUsuario")));
         usuario.setEmail(request.getParameter("emailUser"));
-        usuario.setPassword(request.getParameter("passwordUser"));
-        
-        
+
         cliente.setIdCliente(Integer.parseInt(request.getParameter("idCliente")));
         cliente.setNombre(request.getParameter("nombreUser"));
         cliente.setApellido1(request.getParameter("apellido1User"));
@@ -216,15 +224,41 @@ public class UsuariosYClientes extends HttpServlet {
         cliente.setDireccion(request.getParameter("direccionUser"));
         cliente.setTelefono(request.getParameter("telefonoUser"));
         cliente.setAvatar(request.getParameter("avatarUser"));
-        
-        
-        
+
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IUsuariosDAO odao = daof.getUsuarioDAO();
         odao.actualizarDatosUsuario(usuario);
-        
+
         IClientesDAO odaoC = daof.getClientesDAO();
         odaoC.actualizarDatosCliente(cliente);
 
     }
+
+    public void pujar(HttpServletRequest request, HttpServletResponse response) {
+        Puja puja = new Puja();
+        Cliente cliente = new Cliente();
+        Articulo articulo = new Articulo();
+        Date fechaActual = new Date();
+        HttpSession sesion = request.getSession();
+
+        cliente = (Cliente) sesion.getAttribute("cliente");
+
+        puja.setIdArticulo(Integer.parseInt(request.getParameter("idArticuloPujado")));
+        puja.setIdCliente(cliente.getIdCliente());
+        puja.setFecha(fechaActual);
+        puja.setImporte(Double.parseDouble(request.getParameter("precioPujado")));
+
+        DAOFactory daof = DAOFactory.getDAOFactory(1);
+        IPujasDAO odao = daof.getPujasDAO();
+        odao.newPuja(puja, cliente);
+    }
+
+    public void obtenerPujas(HttpServletRequest request, HttpServletResponse response) {
+        DAOFactory daof = DAOFactory.getDAOFactory(1);
+        IPujasDAO odao = daof.getPujasDAO();
+        ArrayList<Puja> pujasActivas = odao.obtenerPujas();
+        
+        request.setAttribute("pujasActivas", pujasActivas);
+    }
+
 }

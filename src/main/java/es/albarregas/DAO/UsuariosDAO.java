@@ -28,7 +28,7 @@ public class UsuariosDAO implements IUsuariosDAO {
 
             statement.setString(1, usuario.getEmail());
             statement.setString(2, usuario.getPassword());
-
+            System.out.println(statement);
             ResultSet resultado = statement.executeQuery();
             Usuario usuarioLogin = null;
             if (resultado.next()) {
@@ -41,6 +41,7 @@ public class UsuariosDAO implements IUsuariosDAO {
                 usuarioLogin.setValorMas(resultado.getInt("valorMas"));
                 usuarioLogin.setValorMenos(resultado.getInt("valorMenos"));
                 resultado.close();
+                System.out.println(usuario.getEmail());
                 return usuarioLogin;
             }
             resultado.close();

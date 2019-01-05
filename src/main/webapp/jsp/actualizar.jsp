@@ -60,10 +60,6 @@
                 </tr>
                 
                 <tr>
-                    <td><label>Cambia la contraseña: </label></td>
-                    <td><input type="text"  value="${actualizar.password}" name="passwordUser"  maxlength=""/></td>
-                </tr>
-                <tr>
                     <td><label>Cambia la imagen: <small>(100kb max)</small>:</label></td>
                     <td><input value="${actualizar.cliente.avatar}" type="file" name="avatarUser" accept="image/png"></td>
                 </tr>

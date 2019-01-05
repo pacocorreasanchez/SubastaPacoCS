@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,18 +53,23 @@ public class PujasDAO implements IPujasDAO {
     }
 
     @Override
-    public Boolean newPuja(Puja puja, Cliente cliente, Articulo articulo) {
+    public Boolean newPuja(Puja puja, Cliente cliente) {
         Boolean retorno = true;
-        String sql = "insert into pujas (idCliente, idArticulo, fecha, importe) values ((select idCliente from clientes where idCliente="+cliente.getIdCliente()+"),(select idArticulo from articulos where idArticulo="+articulo.getIdArticulo()+"),?,?)";
+        String sql = "insert into pujas (idCliente, idArticulo, fecha, importe) values ((select idCliente from clientes where idCliente="+cliente.getIdCliente()+"),?,?,?)";
         Connection conexion = null;
 
         try {
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
+            
+            statement.setInt(1, puja.getIdArticulo());
 
-            statement.setDate(1, (Date) puja.getFecha());
-            statement.setDouble(2, puja.getImporte());
-
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            String fechaInicio = sdf.format(puja.getFecha());
+            statement.setString(2, fechaInicio);
+            
+            statement.setDouble(3, puja.getImporte());
+            System.out.println(statement);
             statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(CategoriasDAO.class.getName()).log(Level.SEVERE, null, ex);

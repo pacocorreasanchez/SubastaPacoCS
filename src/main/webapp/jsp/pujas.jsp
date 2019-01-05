@@ -11,6 +11,19 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="css/estilos.css">
+        <script src="js/jQueryJavaScriptLibraryv3.3.1.js"></script>
+        <!--<script>
+            $(document).ready(function () {
+                $('div.categorias > div > input[id^=articulo-]').on('click', function () {
+                    $(this).parent().addClass('modal');
+                    $(this).parent().find('.oculta').show();
+                });
+                $('#btncerrar').on('click', function(){
+                    console.log(2);
+                   $('div.categorias > div > input[id^=articulo-]').removeClass('.modal');
+                });
+            });
+        </script>-->
         <title>Pujas-QuickBid</title>
     </head>
     <body>
@@ -25,18 +38,30 @@
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
                 <h1 style="color: white; font-size: 30px; float: right; margin-right: 10px;">Hola <c:out value = "${sessionScope.usuarioLogeado.cliente.nombre}"/> <c:out value = "${sessionScope.usuarioLogeado.cliente.apellido1}"/></h1>
             </ul>
+
+
+
+
+            <div class="categorias">
+                <c:forEach var="art" items="${articulos}">
+
+                    <input type="hidden" value="${art.idArticulo}" name="idArticuloPujado"/>
+                    <div class="div-img" >
+                        <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
+                        <input id="articulo-${art.idArticulo}" style="font-size: 15px !important;" type="submit" class="text" value="${art.descripcionCorta}" name="operacion"/>
+                        <br>
+                        <span class="oculta">Descripción: ${art.descripcion}</span><br>
+                        <span class="oculta">Fecha de inicio: ${art.fechaInicio}</span><br>
+                        <span class="oculta">Fecha fin de puja: ${art.fechaFin}</span><br>
+                        <span class="oculta">Importe de salida: ${art.importeSalida}€</span><br>
+                        <span class="oculta">Precio actual: €</span><br>
+                        <label>Introduce una nueva puja: </label><input type="number" name="precioPujado" placeholder=""/><br>
+
+                        <button class="oculta" name="operacion" value="pujar">Pujar</button><br>
+                    </div>
+                </c:forEach>
+            </div>
         </form>
-
-
-
-        <div class="categorias">
-            <c:forEach var="art" items="${articulos}">
-                <div class="div-img" >
-                    <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
-                    <input style="font-size: 15px !important;" type="submit" class="text" value="${art.descripcionCorta}" name="operacion"/>
-                </div>
-            </c:forEach>
-        </div>
 
 
         <!--FOOTER-->

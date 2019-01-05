@@ -16,5 +16,5 @@ import java.util.ArrayList;
  */
 public interface IPujasDAO {
     public ArrayList<Puja> obtenerPujas();
-    public Boolean newPuja(Puja puja, Cliente cliente, Articulo articulo);
+    public Boolean newPuja(Puja puja, Cliente cliente);
 }
