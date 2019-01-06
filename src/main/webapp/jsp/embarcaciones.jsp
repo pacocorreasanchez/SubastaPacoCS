@@ -33,6 +33,15 @@
                     <div class="div-img" >
                         <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
                         <input style="font-size: 15px !important;" type="submit" class="text" value="${art.descripcionCorta}" name="operacion"/>
+                        <br>
+                        <span class="oculta">Descripción: ${art.descripcion}</span><br>
+                        <span class="oculta">Fecha de inicio: ${art.fechaInicio}</span><br>
+                        <span class="oculta">Fecha fin de puja: ${art.fechaFin}</span><br>
+                        <span class="oculta">Importe de salida: ${art.importeSalida}€</span><br>
+                        <span class="oculta">Precio actual: €</span><br>
+                        <label>Introduce una nueva puja: </label><input type="number" name="precioPujado" placeholder=""/><br>
+
+                        <button class="oculta" name="operacion" value="pujar">Pujar</button><br>
                     </div>
                 </c:forEach>
             </div>

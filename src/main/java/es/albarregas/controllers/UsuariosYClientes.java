@@ -23,6 +23,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -83,7 +84,7 @@ public class UsuariosYClientes extends HttpServlet {
 
             if (request.getParameter("operacion").equals("Pujas")) {
                 url = "jsp/pujas.jsp";
-                obtenerArticulos(request, response, url); 
+                obtenerArticulos(request, response, url);
             }
             if (request.getParameter("operacion").equals("guardarCambios")) {
                 actualizarDatos(request, response);
@@ -156,10 +157,23 @@ public class UsuariosYClientes extends HttpServlet {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             Date date = sdf.parse(s);
 
+            /*Map<String, String[]> parametros = request.getParameterMap();
+            String dia = parametros.get("dia")[0];
+            String mes = parametros.get("mes")[0];
+            String anio = parametros.get("anio")[0];
+            String fecha = "La fecha es: " + dia + "/" + mes + "/" + anio;
+            
+                c.setIdCaracteristica(resultado.getInt("idCaracteristica"));
+                c.setIdCategoria(resultado.getInt("idCategoria"));
+                c.setDenominacion(resultado.getString("denominacion"));
+            
+             */
+            Map<String, String[]> caracteristicas = request.getParameterMap();
+
             articulo.setDescripcionCorta(request.getParameter("desCorta"));
             articulo.setDescripcion(request.getParameter("descripcion"));
             articulo.setIdCategoria(Integer.parseInt(request.getParameter("opcion")));
-            articulo.setFechaInicio(fechaActual);
+            //articulo.setFechaInicio(fechaActual);
             articulo.setFechaFin(date);
             articulo.setImporteSalida(Double.parseDouble(request.getParameter("importe")));
 
@@ -257,7 +271,7 @@ public class UsuariosYClientes extends HttpServlet {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IPujasDAO odao = daof.getPujasDAO();
         ArrayList<Puja> pujasActivas = odao.obtenerPujas();
-        
+
         request.setAttribute("pujasActivas", pujasActivas);
     }
 

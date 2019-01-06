@@ -6,12 +6,15 @@
 package es.albarregas.DAO;
 
 import es.albarregas.beans.Articulo;
+import es.albarregas.beans.CaracYArt;
+import es.albarregas.beans.Caracteristica;
 import es.albarregas.beans.Categoria;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import static java.sql.Statement.RETURN_GENERATED_KEYS;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -21,38 +24,38 @@ import java.util.logging.Logger;
  *
  * @author paco
  */
-public class ArticulosDAO implements IArticulosDAO{
-    
+public class ArticulosDAO implements IArticulosDAO {
+
     @Override
     public ArrayList<Articulo> getArticulosXCategorias(Categoria categoria) {
         ArrayList<Articulo> lista = new ArrayList();
-        String sql = "select * from articulos where idCategoria = (select idCategoria from categorias where denominacion = '"+categoria.getDenominacion()+"')";
-        
-        try{
+        String sql = "select * from articulos where idCategoria = (select idCategoria from categorias where denominacion = '" + categoria.getDenominacion() + "')";
+
+        try {
             Statement sentencia = ConnectionFactory.getConnection().createStatement();
             ResultSet resultado = sentencia.executeQuery(sql);
-            
-             while (resultado.next()){
-                 Articulo articulo = new Articulo();
-                 articulo.setIdArticulo(resultado.getInt("idArticulo"));
-                 articulo.setDescripcionCorta(resultado.getString("descripcionCorta"));
-                 articulo.setDescripcion(resultado.getString("descripcion"));
-                 articulo.setIdCategoria(resultado.getInt("idCategoria"));
-                 articulo.setIdCliente(resultado.getInt("idCliente"));
-                 articulo.setFechaInicio(resultado.getDate("fechaInicio"));
-                 articulo.setFechaFin(resultado.getDate("fechaFin"));
-                 articulo.setImporteSalida(resultado.getDouble("importeSalida"));
-                 lista.add(articulo);
-             }
-             System.out.println(sql);
-             resultado.close();
-             
-        } catch(SQLException ex){
+
+            while (resultado.next()) {
+                Articulo articulo = new Articulo();
+                articulo.setIdArticulo(resultado.getInt("idArticulo"));
+                articulo.setDescripcionCorta(resultado.getString("descripcionCorta"));
+                articulo.setDescripcion(resultado.getString("descripcion"));
+                articulo.setIdCategoria(resultado.getInt("idCategoria"));
+                articulo.setIdCliente(resultado.getInt("idCliente"));
+                articulo.setFechaInicio(resultado.getDate("fechaInicio"));
+                articulo.setFechaFin(resultado.getDate("fechaFin"));
+                articulo.setImporteSalida(resultado.getDouble("importeSalida"));
+                lista.add(articulo);
+            }
+            System.out.println(sql);
+            resultado.close();
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally{
+        } finally {
             ConnectionFactory.closeConnection();
         }
-        
+
         return lista;
     }
 
@@ -60,61 +63,72 @@ public class ArticulosDAO implements IArticulosDAO{
     public ArrayList<Articulo> getArticulos() {
         ArrayList<Articulo> lista = new ArrayList();
         String sql = "select * from articulos";
-        
-        try{
+
+        try {
             Statement sentencia = ConnectionFactory.getConnection().createStatement();
             ResultSet resultado = sentencia.executeQuery(sql);
-            
-             while (resultado.next()){
-                 Articulo articulo = new Articulo();
-                 articulo.setIdArticulo(resultado.getInt("idArticulo"));
-                 articulo.setDescripcionCorta(resultado.getString("descripcionCorta"));
-                 articulo.setDescripcion(resultado.getString("descripcion"));
-                 articulo.setIdCategoria(resultado.getInt("idCategoria"));
-                 articulo.setIdCliente(resultado.getInt("idCliente"));
-                 articulo.setFechaInicio(resultado.getDate("fechaInicio"));
-                 articulo.setFechaFin(resultado.getDate("fechaFin"));
-                 articulo.setImporteSalida(resultado.getDouble("importeSalida"));
-                 lista.add(articulo);
-             }
-             resultado.close();
-             
-        } catch(SQLException ex){
+
+            while (resultado.next()) {
+                Articulo articulo = new Articulo();
+                articulo.setIdArticulo(resultado.getInt("idArticulo"));
+                articulo.setDescripcionCorta(resultado.getString("descripcionCorta"));
+                articulo.setDescripcion(resultado.getString("descripcion"));
+                articulo.setIdCategoria(resultado.getInt("idCategoria"));
+                articulo.setIdCliente(resultado.getInt("idCliente"));
+                articulo.setFechaInicio(resultado.getDate("fechaInicio"));
+                articulo.setFechaFin(resultado.getDate("fechaFin"));
+                articulo.setImporteSalida(resultado.getDouble("importeSalida"));
+                lista.add(articulo);
+            }
+            resultado.close();
+
+        } catch (SQLException ex) {
             ex.printStackTrace();
-        } finally{
+        } finally {
             ConnectionFactory.closeConnection();
         }
-        
+
         return lista;
     }
 
     @Override
     public Boolean newArticulo(Articulo articulo) {
         Boolean retorno = true;
-        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,?,?,?)";
+        String sql = "insert into articulos (descripcionCorta, descripcion, idCategoria, idCliente, fechaInicio, fechaFin, importeSalida) values (?,?,?,?,now(),?,?)";
         Connection conexion = null;
-        
-        try{
+
+        try {
             conexion = ConnectionFactory.getConnection();
-            PreparedStatement statement = conexion.prepareStatement(sql);
-            
+            PreparedStatement statement = conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
             statement.setString(1, articulo.getDescripcionCorta());
             statement.setString(2, articulo.getDescripcion());
             statement.setInt(3, articulo.getIdCategoria());
             statement.setInt(4, articulo.getIdCliente());
-            
-            
+
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-            String fechaInicio = sdf.format(articulo.getFechaInicio());
-            statement.setString(5, fechaInicio);
-            
+            /*String fechaInicio = sdf.format(articulo.getFechaInicio());
+            statement.setString(5, fechaInicio);*/
+
             String fechaFin = sdf.format(articulo.getFechaFin());
-            statement.setString(6, fechaFin);
-            
-            
-            statement.setDouble(7, articulo.getImporteSalida());
+            statement.setString(5, fechaFin);
+
+            statement.setDouble(6, articulo.getImporteSalida());
             System.out.println(statement);
             statement.executeUpdate();
+
+            ResultSet rset = statement.getGeneratedKeys();
+            rset.next();
+            int idArticulo = rset.getInt(1);
+            
+            ArrayList<CaracYArt> caracYart = articulo.getCaracteristicas();
+            String sqlCarArt="";
+            for(CaracYArt c : caracYart){
+              sqlCarArt="insert into caracyart values("+idArticulo+",'"+c.getIdCaracteristica()+"','"+c.getValor()+"')";
+              statement=(PreparedStatement) conexion.createStatement();
+              statement.executeUpdate(sqlCarArt);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(CategoriasDAO.class.getName()).log(Level.SEVERE, null, ex);
             retorno = false;
@@ -123,5 +137,5 @@ public class ArticulosDAO implements IArticulosDAO{
         }
         return retorno;
     }
-    
+
 }
