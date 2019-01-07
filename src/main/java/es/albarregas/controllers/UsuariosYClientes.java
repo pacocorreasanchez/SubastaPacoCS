@@ -38,6 +38,17 @@ import org.apache.commons.lang3.StringUtils;
 /**
  *
  * @author paco
+ * 
+ * A este servlet vienen las peticiones de los formularios de jsp/:
+ *                                                              -actualizar.jsp
+ *                                                              -automovil.jsp
+ *                                                              -crearPuja.jsp
+ *                                                              -embarcaciones.jsp
+ *                                                              -pinturas.jsp
+ *                                                              -pujas.jsp
+ *                                                              -usuarios.jsp
+ *                                                          
+ *                                                              -index.jsp: donde registramos al usuario
  */
 @WebServlet(name = "UsuariosYClientes", urlPatterns = {"/UsuariosYClientes"})
 public class UsuariosYClientes extends HttpServlet {
@@ -58,47 +69,54 @@ public class UsuariosYClientes extends HttpServlet {
         String url = "";
         
         if (request.getParameter("operacion") != null) {
+            //Cuando abrimos en el index el formulario de registrar y pulsamos registrar
             if (request.getParameter("operacion").equals("registrar")) {
                 insertarUsuario(request, response, url);
             }
-            
+            //Sirve para cuando pulsamos salir en algun lugar de la aplicación
             if (request.getParameter("operacion").equals("Salir")) {
                 url = "index.jsp";
-                sesion.invalidate();
+                sesion.invalidate();//invalidamos la sesión que se estaba usando
             }
-            
+            //Para ir al inicio (usuarios.jsp) donde muestra las categorías
             if (request.getParameter("operacion").equals("Inicio")) {
                 url = "jsp/usuarios.jsp";
             }
-            
+            //Para crear una nueva subasta o puja, nos redirije al formulario donde insertar los datos
             if (request.getParameter("operacion").startsWith("Subir")) {
                 url = "jsp/crearPuja.jsp";
             }
-            
+            //Para insertar los articulos en la base de datos
             if (request.getParameter("operacion").equals("subirPuja")) {
                 insertarArticulo(request, response, url);
                 
             }
-            
+            //Para redirigir a la página actualizar.jsp, donde el usuario puede actualizar sus datos
             if (request.getParameter("operacion").startsWith("Actualizar")) {
                 url = "jsp/actualizar.jsp";
             }
-            
+            //Nos redirige a pujas.jsp donde muestra todas las pujas y llama al metodo correspondiente
             if (request.getParameter("operacion").equals("Pujas")) {
                 url = "jsp/pujas.jsp";
                 obtenerArticulos(request, response, url);
             }
+            //Cuando el usuario ha cambiado algo en el formulario de actualizar sus datos, 
+            //estos se guardan llamando al metodo que hay indicado y redirige a usuarios.jsp
             if (request.getParameter("operacion").equals("guardarCambios")) {
                 actualizarDatos(request, response);
                 url = "jsp/usuarios.jsp";
             }
+            //Cuando introducimos el precio o puja por lo que queremos pujar
+            //LLama al método para insertar el nuevo importe en la base de datos
             if (request.getParameter("operacion").equals("pujar")) {
                 pujar(request, response);
                 getMaxPuja(request, response);
                 //url = "jsp/pujas.jsp";
             }
         }
-        
+        //Redirecciona a las páginas correspondientes cuando estamos en la vista
+        //de usuarios.jsp, donde se muestran las categorías y según la que pulse el usuario
+        //va a automovil.jsp, embarcaciones.jsp o automovil.jsp (todas ellas incluidas en la carpeta jsp)
         if (request.getParameter("redireccionCategorias") != null) {
             url = "jsp/" + request.getParameter("redireccionCategorias").toLowerCase() + ".jsp";
             url = StringUtils.stripAccents(url);
@@ -108,6 +126,13 @@ public class UsuariosYClientes extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url
+     * Este método nos sirve para registrar un nuevo usuario/cliente
+     */
     public void insertarUsuario(HttpServletRequest request, HttpServletResponse response, String url) {
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
@@ -150,6 +175,15 @@ public class UsuariosYClientes extends HttpServlet {
         }
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url
+     * @throws ServletException
+     * @throws IOException
+     * Este método sirve para que el usuario pueda añadir artículos a la base de datos
+     */
     public void insertarArticulo(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         Articulo articulo = new Articulo();
         Cliente cliente = new Cliente();
@@ -203,6 +237,13 @@ public class UsuariosYClientes extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url 
+     * Con este método obtenemos todos los artículos de la base de datos para mostralos en su correspondiente vista
+     */
     public void obtenerArticulos(HttpServletRequest request, HttpServletResponse response, String url) {
         HttpSession sesion = request.getSession();
         
@@ -214,6 +255,14 @@ public class UsuariosYClientes extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url 
+     * Con este método obtenemos todos los artículos de la base de datos para mostralos en su correspondiente vista,
+     * pero cada uno dentro de su propia categoría.
+     */
     public void obtenerArticulosXCategorias(HttpServletRequest request, HttpServletResponse response, String url) {
         HttpSession sesion = request.getSession();
         
@@ -227,6 +276,13 @@ public class UsuariosYClientes extends HttpServlet {
         sesion.setAttribute("articulosXcategorias", articulosXcategorias);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * 
+     * Cuando un usuario quiere actualizar los datos (nombre, dirección...), se hace con este método
+     */
     public void actualizarDatos(HttpServletRequest request, HttpServletResponse response) {
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
@@ -252,6 +308,13 @@ public class UsuariosYClientes extends HttpServlet {
         
     }
     
+    /**
+     * 
+     * @param request
+     * @param response 
+     * Este método recoge el nuevo importe que el usuario ha introducio para subir la puja
+     * y lo actualiza en la base de datos
+     */
     public void pujar(HttpServletRequest request, HttpServletResponse response) {
         Puja puja = new Puja();
         Cliente cliente = new Cliente();
@@ -271,6 +334,13 @@ public class UsuariosYClientes extends HttpServlet {
         odao.newPuja(puja, cliente);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * Este método obtiene sólo las pujas que están en activo y que la fecha de finalización
+     * no haya caducado
+     */
     public void obtenerPujas(HttpServletRequest request, HttpServletResponse response) {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IPujasDAO odao = daof.getPujasDAO();
@@ -279,6 +349,13 @@ public class UsuariosYClientes extends HttpServlet {
         request.setAttribute("pujasActivas", pujasActivas);
     }
     
+    /**
+     * 
+     * @param request
+     * @param response
+     * Este método obtiene el último importe que tienen la puja para despues a traves de AJAX
+     * mostrarlo en la vista pujas.jsp
+     */
     private void getMaxPuja(HttpServletRequest request, HttpServletResponse response) {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IPujasDAO odao = daof.getPujasDAO();

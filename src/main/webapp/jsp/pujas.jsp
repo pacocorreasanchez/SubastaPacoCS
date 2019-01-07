@@ -32,11 +32,12 @@
                     let idArticulo = $(this).attr('data-idArticulo');
                     let parent = $(this).parent(); 
                     let importe= $(parent).find('[name=precioPujado-'+idArticulo+']').val();
-                    $.ajax({url: 'UsuariosYClientes',
+                    $.ajax({
+                        url: 'UsuariosYClientes',
                         type: 'POST',
                         data: jQuery.param({operacion:'pujar', idArticulo:idArticulo, precioPujado:importe}),
                         success: function (respuesta) {
-                                
+                                $('#precioActual').html(respuesta);
                         }});
                     
                 });
@@ -73,7 +74,7 @@
                         <span class="oculta">Fecha de inicio: ${art.fechaInicio}</span><br>
                         <span class="oculta">Fecha fin de puja: ${art.fechaFin}</span><br>
                         <span class="oculta">Importe de salida: ${art.importeSalida}€</span><br>
-                        <span class="oculta">Precio actual: €</span><br>
+                        <span class="oculta" id="precioActual">Precio actual: €</span><br>
                         <label>Introduce una nueva puja: </label><input type="number" name="precioPujado-${art.idArticulo}" placeholder=""/><br>
 
                         <!--<button class="oculta" name="operacion" value="pujar">Pujar</button><br>-->

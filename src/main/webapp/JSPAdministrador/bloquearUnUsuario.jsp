@@ -25,7 +25,6 @@
                     </div>
                 </li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Copias de seguridad" /></li>
-                <li><input class="menuAdmin" type="submit" name="operacion" value="Añadir categoría" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
             </ul>
         </form>

@@ -21,6 +21,8 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author paco
+ * Este servlet sirve para redirigir al menú de usuario administrador o usuario común
+ * Recibe las peticiones del index.jsp del formulario de acceso.
  */
 @WebServlet(name = "RedireccionUsuarios", urlPatterns = {"/RedireccionUsuarios"})
 public class RedireccionUsuarios extends HttpServlet {
@@ -39,11 +41,25 @@ public class RedireccionUsuarios extends HttpServlet {
         String url = "";
         HttpSession sesion = request.getSession();
 
+        //Si el usuario intenta acceder pero no está registrado, aparece un mensaje de error
         if (request.getParameter("operacion").equals("accede") && !loginUsuario(request, response, sesion, url)) {
             request.setAttribute("error", "Usuario no registrado.");
         }
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param sesion
+     * @param url
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     * Este método recoge los parámetros del formulario de acceso y dependiendo de el tipo de usuario
+     * entra en una vista o en otra. Si el usuario es administrador, entra en las vistas de administrador
+     * y si es un usuario común, entra en otras vistas diferentes diseñadas para ese tipo de usuarios.
+     */
     public boolean loginUsuario(HttpServletRequest request, HttpServletResponse response, HttpSession sesion, String url) throws ServletException, IOException {
 
             

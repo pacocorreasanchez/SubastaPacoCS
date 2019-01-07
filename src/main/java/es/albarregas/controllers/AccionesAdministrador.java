@@ -22,6 +22,11 @@ import javax.servlet.http.HttpSession;
 /**
  *
  * @author paco
+ * 
+ * A este servlet vienen las peticiones de JSPAdministrador:
+ *                                                          -bloquearUnUsuario.jsp
+ *                                                          -desbloquearUnUsuario.jsp
+ *                                                          -principalAdministrador.jsp
  */
 @WebServlet(name = "AccionesAdministrador", urlPatterns = {"/AccionesAdministrador"})
 public class AccionesAdministrador extends HttpServlet {
@@ -40,29 +45,29 @@ public class AccionesAdministrador extends HttpServlet {
         HttpSession sesion = request.getSession();
         String url = "";
 
+        //Cuando el administrador le da a salir
         if (request.getParameter("operacion").equals("salir")) {
             url = "index.jsp";
-            sesion.invalidate();
+            sesion.invalidate();//cuando el administrador le da a salir, se invalida su sesión
         }
+        //Cuando el administrador le da a bloquear, redirige a la vista para introducir el usuario a bloquear
         if (request.getParameter("operacion").equals("Bloquear")) {
             url = "JSPAdministrador/bloquearUnUsuario.jsp";
         }
+        //Cuando el administrador le da a desbloquear, redirige a la vista para introducir el usuario a desbloquear
         if (request.getParameter("operacion").equals("Desbloquear")) {
             url = "JSPAdministrador/desbloquearUnUsuario.jsp";
         }
-
+        //Cuando el administrador está en la vista bloquearUnUsuario.jsp introduce el mail y se ejecuta el método
         if (request.getParameter("operacion").equals("bloquearUser")) {
             bloquearUser(request, response, url);
         }
-
+    //Cuando el administrador está en la vista desbloquearUnUsuario.jsp introduce el mail y se ejecuta el método
         if (request.getParameter("operacion").equals("desbloquearUser")) {
             desBloquearUser(request, response, url);
         }
 
-        if (request.getParameter("operacion").startsWith("Copias")) {
-
-        }
-
+        //Esto vale para crear categorías nuevas
         /*if (request.getParameter("operacion").startsWith("Añadir")) {
             url = "JSPAdministrador/anadirCategoria.jsp";
         }
@@ -72,6 +77,16 @@ public class AccionesAdministrador extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url
+     * @throws ServletException
+     * @throws IOException 
+     * Este método permite bloquear a un usuario introduciendo el mail del mismo, lo que no le permitirá
+     * entrar en el menú de los usuarios/clientes comunes
+     */
     public void bloquearUser(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
 
         Usuario usuario = new Usuario();
@@ -86,6 +101,15 @@ public class AccionesAdministrador extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
     }
 
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param url
+     * @throws ServletException
+     * @throws IOException 
+     * Este método desbloquea a un usuario que estubiera bloqueado introduciendo el mail.
+     */
     public void desBloquearUser(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
 
         Usuario usuario = new Usuario();
@@ -100,6 +124,7 @@ public class AccionesAdministrador extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
     }
 
+    //Con este método se pueden crear categorías nuevas
     /*public void anadirCategoria(HttpServletRequest request, HttpServletResponse response, String url) throws ServletException, IOException {
         Categoria categoria = new Categoria();
         

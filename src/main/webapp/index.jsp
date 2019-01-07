@@ -107,7 +107,7 @@
         <div class="categorias">
                 <c:forEach var="c" items="${applicationScope.categorias}">
                     <div class="div-img" >
-                        <img class="img" src="img/arte.jpg" title="Arte" alt="Arte">
+                        <img class="img" src="img/imagen-${c.idCategoria}.jpg" title="img/imagen-${c.idCategoria}" alt="img/imagen-${c.idCategoria}">
                         <input type="submit" class="text" value="${c.denominacion}" />
                     </div>
                 </c:forEach>
