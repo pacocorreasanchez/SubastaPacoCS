@@ -11,6 +11,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" content="text/css" href="css/estilos.css">
+        <script src="js/jQueryJavaScriptLibraryv3.3.1.js"></script>
         <script src="js/caracteristicas.js"></script>
         <title>Nueva subasta</title>
     </head>
@@ -64,7 +65,7 @@
             <c:forEach var="caract" items="${applicationScope.caracteristicas}">
                 <div class="caracteristica" idCategoria="${caract.idCategoria}">
                     <label >${caract.denominacion}</label>
-                    <input  type="text" name="${caract.idCaracteristica}"/>
+                    <input  type="text" name="caracteristica-${caract.idCaracteristica}-${caract.denominacion}"/>
                     <br>
                 </div>
             </c:forEach>

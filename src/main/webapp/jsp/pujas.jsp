@@ -24,6 +24,24 @@
                 });
             });
         </script>-->
+        <script>
+            $(document).ready(function () {
+                $('.sendPuja').on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    let idArticulo = $(this).attr('data-idArticulo');
+                    let parent = $(this).parent(); 
+                    let importe= $(parent).find('[name=precioPujado-'+idArticulo+']').val();
+                    $.ajax({url: 'UsuariosYClientes',
+                        type: 'POST',
+                        data: jQuery.param({operacion:'pujar', idArticulo:idArticulo, precioPujado:importe}),
+                        success: function (respuesta) {
+                                
+                        }});
+                    
+                });
+            });
+        </script>
         <title>Pujas-QuickBid</title>
     </head>
     <body>
@@ -38,12 +56,13 @@
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
                 <h1 style="color: white; font-size: 30px; float: right; margin-right: 10px;">Hola <c:out value = "${sessionScope.usuarioLogeado.cliente.nombre}"/> <c:out value = "${sessionScope.usuarioLogeado.cliente.apellido1}"/></h1>
             </ul>
+        </form>
 
 
 
 
-            <div class="categorias">
-                <c:forEach var="art" items="${articulos}">
+        <div class="categorias">
+            <c:forEach var="art" items="${articulos}">
 
                     <input type="hidden" value="${art.idArticulo}" name="idArticuloPujado"/>
                     <div class="div-img" >
@@ -55,13 +74,16 @@
                         <span class="oculta">Fecha fin de puja: ${art.fechaFin}</span><br>
                         <span class="oculta">Importe de salida: ${art.importeSalida}€</span><br>
                         <span class="oculta">Precio actual: €</span><br>
-                        <label>Introduce una nueva puja: </label><input type="number" name="precioPujado" placeholder=""/><br>
+                        <label>Introduce una nueva puja: </label><input type="number" name="precioPujado-${art.idArticulo}" placeholder=""/><br>
 
-                        <button class="oculta" name="operacion" value="pujar">Pujar</button><br>
+                        <!--<button class="oculta" name="operacion" value="pujar">Pujar</button><br>-->
+                        <button class="sendPuja" data-idArticulo="${art.idArticulo}">Pujar</button><br>
                     </div>
-                </c:forEach>
-            </div>
-        </form>
+                
+            </c:forEach>
+        </div>
+
+
 
 
         <!--FOOTER-->

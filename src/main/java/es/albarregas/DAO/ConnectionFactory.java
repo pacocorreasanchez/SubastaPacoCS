@@ -24,6 +24,7 @@ public class ConnectionFactory {
     private static Connection conexion = null;
 
     public static Connection getConnection() {
+        System.out.println(conexion);
         try {
             Context initialContext = new InitialContext();
             data = (DataSource) initialContext.lookup("java:comp/env/jdbc/subastas");

@@ -68,9 +68,11 @@ public class ArticulosDAO implements IArticulosDAO {
             Statement sentencia = ConnectionFactory.getConnection().createStatement();
             ResultSet resultado = sentencia.executeQuery(sql);
 
+            int idArticulo = -1;
             while (resultado.next()) {
                 Articulo articulo = new Articulo();
                 articulo.setIdArticulo(resultado.getInt("idArticulo"));
+                idArticulo = resultado.getInt("idArticulo");
                 articulo.setDescripcionCorta(resultado.getString("descripcionCorta"));
                 articulo.setDescripcion(resultado.getString("descripcion"));
                 articulo.setIdCategoria(resultado.getInt("idCategoria"));
@@ -78,6 +80,25 @@ public class ArticulosDAO implements IArticulosDAO {
                 articulo.setFechaInicio(resultado.getDate("fechaInicio"));
                 articulo.setFechaFin(resultado.getDate("fechaFin"));
                 articulo.setImporteSalida(resultado.getDouble("importeSalida"));
+                
+
+                /*sql = "select * from caracyart as c, caracteristicas as ca where idArticulo=" + idArticulo + " and c.idCaracteristica = ca.idCaracteristica;";
+                System.out.println(sql);
+                Statement sentencia2 = ConnectionFactory.getConnection().createStatement();
+                ResultSet resultado2 = sentencia2.executeQuery(sql);
+                ArrayList<CaracYArt> caracYArts = new ArrayList();
+                while (resultado2.next()) {
+                    CaracYArt car = new CaracYArt();
+                    car.setIdArticulo(resultado2.getInt("idArticulo"));
+                    car.setIdCaracteristica(resultado2.getInt("idCaracteristica"));
+                    car.setValor(resultado2.getString("valor"));
+                    car.setDenominacion(resultado2.getString("denominacion"));
+                    caracYArts.add(car);
+                }
+                resultado2.close();
+                
+                articulo.setCaracteristicas(caracYArts);*/
+                
                 lista.add(articulo);
             }
             resultado.close();
@@ -120,13 +141,13 @@ public class ArticulosDAO implements IArticulosDAO {
             ResultSet rset = statement.getGeneratedKeys();
             rset.next();
             int idArticulo = rset.getInt(1);
-            
+
             ArrayList<CaracYArt> caracYart = articulo.getCaracteristicas();
-            String sqlCarArt="";
-            for(CaracYArt c : caracYart){
-              sqlCarArt="insert into caracyart values("+idArticulo+",'"+c.getIdCaracteristica()+"','"+c.getValor()+"')";
-              statement=(PreparedStatement) conexion.createStatement();
-              statement.executeUpdate(sqlCarArt);
+            String sqlCarArt = "";
+            for (CaracYArt c : caracYart) {
+                sqlCarArt = "insert into caracyart (idArticulo, idCaracteristica, valor) values(" + idArticulo + ",'" + c.getIdCaracteristica() + "','" + c.getValor() + "')";
+                statement = conexion.prepareStatement(sqlCarArt);
+                statement.executeUpdate();
             }
 
         } catch (SQLException ex) {

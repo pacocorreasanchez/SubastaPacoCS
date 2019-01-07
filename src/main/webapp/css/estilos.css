@@ -255,3 +255,7 @@ li.dropdown {
 }*/
 
 
+.categorias form{
+    display: inline-block;
+}
+

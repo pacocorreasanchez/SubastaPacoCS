@@ -16,6 +16,7 @@ public class CaracYArt implements Serializable{
     private int idArticulo;
     private int idCaracteristica;
     private String valor;
+    private String denominacion;
 
     /**
      * @return the id
@@ -71,6 +72,20 @@ public class CaracYArt implements Serializable{
      */
     public void setValor(String valor) {
         this.valor = valor;
+    }
+
+    /**
+     * @return the denominacion
+     */
+    public String getDenominacion() {
+        return denominacion;
+    }
+
+    /**
+     * @param denominacion the denominacion to set
+     */
+    public void setDenominacion(String denominacion) {
+        this.denominacion = denominacion;
     }
     
     

@@ -81,4 +81,29 @@ public class PujasDAO implements IPujasDAO {
         return retorno;
     }
 
+    @Override
+    public Puja getMaxPuja(Articulo articulo) {
+        Puja puja = new Puja();
+        String sql = "select MAX(importe) from pujas where idArticulo="+articulo.getIdArticulo()+"";
+        Connection conexion = null;
+        try {
+            conexion = ConnectionFactory.getConnection();
+            Statement statement = conexion.createStatement();
+            ResultSet resultado = statement.executeQuery(sql);
+
+            if (resultado.next()) {
+                puja.setIdArticulo(resultado.getInt("idArticulo"));
+                puja.setIdCliente(resultado.getInt("idCliente"));
+                puja.setFecha(resultado.getDate("fecha"));
+                puja.setImporte(resultado.getDouble("importe"));
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return puja;
+    }
+
 }
