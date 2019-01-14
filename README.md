@@ -1,5 +1,5 @@
 # SubastaPacoCS
-Esta es una aplicación de subastas donde los usuarios suben sus productos para venderlos y otros usuarios irán pujando. El usuario que puje por el precio más alto antes de que se acabe el tiempo, se lleva el árticulo en cuestión.
+Esta es una aplicación de subastas donde los usuarios suben sus productos para venderlos y otros usuarios irán pujando. El usuario que puje por el precio más alto antes de que se acabe el tiempo, se lleva el artículo en cuestión.
 El administrador tienen otro rol, para poder gestionar la web como crea conveniente.
 <br>
 ##El index principal con los botones de acceder o registrar y el pie de página con los datos y redes sociales
