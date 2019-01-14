@@ -25,7 +25,9 @@
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Pujas" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Actualizar datos" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
+                <img class="img-avatar" src="img/avatar/${cliente.avatar}" width="50px" height="auto" style="float: right; margin-right: 10px;"/>
                 <h1 style="color: white; font-size: 30px; float: right; margin-right: 10px;">Hola <c:out value = "${sessionScope.usuarioLogeado.cliente.nombre}"/> <c:out value = "${sessionScope.usuarioLogeado.cliente.apellido1}"/></h1>
+                
             </ul>
 
             <c:if test = "${pujasubida != null}">

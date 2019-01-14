@@ -6,33 +6,38 @@
 package es.albarregas.controllers;
 
 import es.albarregas.DAO.IArticulosDAO;
-import es.albarregas.DAO.ICaracteristicasDAO;
 import es.albarregas.DAO.IClientesDAO;
 import es.albarregas.DAO.IPujasDAO;
 import es.albarregas.DAO.IUsuariosDAO;
 import es.albarregas.DAOFACTORY.DAOFactory;
 import es.albarregas.beans.Articulo;
 import es.albarregas.beans.CaracYArt;
-import es.albarregas.beans.Caracteristica;
 import es.albarregas.beans.Categoria;
 import es.albarregas.beans.Cliente;
 import es.albarregas.beans.Puja;
 import es.albarregas.beans.Usuario;
+import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -50,6 +55,7 @@ import org.apache.commons.lang3.StringUtils;
  *                                                          
  *                                                              -index.jsp: donde registramos al usuario
  */
+@MultipartConfig
 @WebServlet(name = "UsuariosYClientes", urlPatterns = {"/UsuariosYClientes"})
 public class UsuariosYClientes extends HttpServlet {
 
@@ -64,7 +70,6 @@ public class UsuariosYClientes extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("hola");
         HttpSession sesion = request.getSession();
         String url = "";
         
@@ -103,6 +108,7 @@ public class UsuariosYClientes extends HttpServlet {
             //Cuando el usuario ha cambiado algo en el formulario de actualizar sus datos, 
             //estos se guardan llamando al metodo que hay indicado y redirige a usuarios.jsp
             if (request.getParameter("operacion").equals("guardarCambios")) {
+                subirImagen(request, response);
                 actualizarDatos(request, response);
                 url = "jsp/usuarios.jsp";
             }
@@ -111,7 +117,7 @@ public class UsuariosYClientes extends HttpServlet {
             if (request.getParameter("operacion").equals("pujar")) {
                 pujar(request, response);
                 getMaxPuja(request, response);
-                //url = "jsp/pujas.jsp";
+                url = "jsp/importeSubasta.jsp";
             }
         }
         //Redirecciona a las páginas correspondientes cuando estamos en la vista
@@ -284,6 +290,8 @@ public class UsuariosYClientes extends HttpServlet {
      * Cuando un usuario quiere actualizar los datos (nombre, dirección...), se hace con este método
      */
     public void actualizarDatos(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("actualizar datos");
+        
         Cliente cliente = new Cliente();
         Usuario usuario = new Usuario();
         HttpSession sesion = request.getSession();
@@ -297,8 +305,8 @@ public class UsuariosYClientes extends HttpServlet {
         cliente.setApellido2(request.getParameter("apellido2User"));
         cliente.setDireccion(request.getParameter("direccionUser"));
         cliente.setTelefono(request.getParameter("telefonoUser"));
-        cliente.setAvatar(request.getParameter("avatarUser"));
-        
+        cliente.setAvatar(request.getParameter("file"));
+
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IUsuariosDAO odao = daof.getUsuarioDAO();
         odao.actualizarDatosUsuario(usuario);
@@ -356,7 +364,7 @@ public class UsuariosYClientes extends HttpServlet {
      * Este método obtiene el último importe que tienen la puja para despues a traves de AJAX
      * mostrarlo en la vista pujas.jsp
      */
-    private void getMaxPuja(HttpServletRequest request, HttpServletResponse response) {
+    public void getMaxPuja(HttpServletRequest request, HttpServletResponse response) {
         DAOFactory daof = DAOFactory.getDAOFactory(1);
         IPujasDAO odao = daof.getPujasDAO();
         Puja puja = new Puja();
@@ -365,6 +373,34 @@ public class UsuariosYClientes extends HttpServlet {
         puja = odao.getMaxPuja(articulo);
         
         System.out.println(puja.getImporte());
+        HttpSession sesion = request.getSession();
+        
+        sesion.setAttribute("pujaImporte", puja);
     }
+    
+    public void subirImagen(HttpServletRequest request, HttpServletResponse response){
+        System.out.println("subida de imagen");
+        ServletFileUpload sf = new ServletFileUpload(new DiskFileItemFactory());
+        List<FileItem> multifiles;
+        String nombreImagen = "";
+        try {
+            multifiles = sf.parseRequest(request);
+
+            for (FileItem item : multifiles) {
+                item.write(new File("/Users/paco/NetBeansProjects/Entorno Servidor/SubastaPacoCS/src/main/webapp/img/avatar/"+ item.getName()));
+                nombreImagen = item.getName();
+                System.out.println(item.getName());
+            }
+            
+            System.out.println("Archivo subido");
+        } catch (FileUploadException ex) {
+            Logger.getLogger(UsuariosYClientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UsuariosYClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        System.out.println(nombreImagen);
+    }
+    
     
 }

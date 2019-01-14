@@ -21,12 +21,14 @@
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Pujas" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Actualizar datos" /></li>
                 <li><input class="menuAdmin" type="submit" name="operacion" value="Salir" /></li>
+                <img class="img-avatar" src="img/avatar/${cliente.avatar}" width="50px" height="auto" style="float: right; margin-right: 10px;"/>
                 <h1 style="color: white; font-size: 30px; float: right; margin-right: 10px;">Hola <c:out value = "${sessionScope.usuarioLogeado.cliente.nombre}"/> <c:out value = "${sessionScope.usuarioLogeado.cliente.apellido1}"/></h1>
             </ul>
+        </form>
 
 
 
-
+        <form action="UsuariosYClientes" method="post" enctyte="multipart/form-data">
             <c:set var="actualizar" value="${usuarioLogeado}"/>
             <h1>Modifica tus datos</h1>
             <input type="hidden"  value="${actualizar.idUsuario}" name="idUsuario" maxlength=""/>
@@ -53,15 +55,16 @@
                     <td><label>Cambia el telefono </label></td>
                     <td><input type="number"  value="${actualizar.cliente.telefono}" name="telefonoUser"  maxlength=""/></td>
                 </tr>
-                
+
                 <tr>
                     <td><label>Cambia el email: </label></td>
                     <td><input type="text"  value="${actualizar.email}" name="emailUser"  maxlength=""/></td>
                 </tr>
-                
+
                 <tr>
                     <td><label>Cambia la imagen: <small>(100kb max)</small>:</label></td>
-                    <td><input value="${actualizar.cliente.avatar}" type="file" name="avatarUser" accept="image/png"></td>
+                    <td><input type="file" name="file" accept="image/png"/></td><br>
+
                 </tr>
             </table>
             <button type="submit" value="cancelar" name="operacion">Cancelar</button>

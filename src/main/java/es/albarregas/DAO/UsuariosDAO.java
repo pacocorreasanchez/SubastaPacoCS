@@ -158,17 +158,17 @@ public class UsuariosDAO implements IUsuariosDAO {
     public Boolean actualizarDatosUsuario(Usuario usuario) {
         Connection conexion = null;
 
-        String sql = "update usuarios set email=?, password=md5(?) where idUsuario=? and bloqueado='n' and tipoAcceso='u'";
+        String sql = "update usuarios set email=? where idUsuario=? and bloqueado='n' and tipoAcceso='u'";
         try {
 
             conexion = ConnectionFactory.getConnection();
             PreparedStatement statement = conexion.prepareStatement(sql);
 
             statement.setString(1, usuario.getEmail());
-            statement.setString(2, usuario.getPassword());
-            statement.setInt(3, usuario.getIdUsuario());
+            statement.setInt(2, usuario.getIdUsuario());
             System.out.println(statement);
             statement.executeUpdate();
+            statement.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();

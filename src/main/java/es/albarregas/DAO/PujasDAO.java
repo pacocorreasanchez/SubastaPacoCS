@@ -43,6 +43,9 @@ public class PujasDAO implements IPujasDAO {
                 p.setImporte(resultado.getDouble("importe"));
                 pujas.add(p);
             }
+            
+            resultado.close();
+            statement.close();
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -71,6 +74,8 @@ public class PujasDAO implements IPujasDAO {
             statement.setDouble(3, puja.getImporte());
             System.out.println(statement);
             statement.executeUpdate();
+            
+            statement.close();
         } catch (SQLException ex) {
             Logger.getLogger(CategoriasDAO.class.getName()).log(Level.SEVERE, null, ex);
             retorno = false;
@@ -83,8 +88,10 @@ public class PujasDAO implements IPujasDAO {
 
     @Override
     public Puja getMaxPuja(Articulo articulo) {
+        System.out.println("daoPujas getMaxPuja");
         Puja puja = new Puja();
-        String sql = "select MAX(importe) from pujas where idArticulo="+articulo.getIdArticulo()+"";
+        String sql = "select MAX(importe) as maximporte from pujas where idArticulo="+articulo.getIdArticulo()+"";
+        System.out.println(sql);
         Connection conexion = null;
         try {
             conexion = ConnectionFactory.getConnection();
@@ -92,12 +99,11 @@ public class PujasDAO implements IPujasDAO {
             ResultSet resultado = statement.executeQuery(sql);
 
             if (resultado.next()) {
-                puja.setIdArticulo(resultado.getInt("idArticulo"));
-                puja.setIdCliente(resultado.getInt("idCliente"));
-                puja.setFecha(resultado.getDate("fecha"));
-                puja.setImporte(resultado.getDouble("importe"));
+                puja.setImporte(resultado.getFloat("maximporte"));
             }
 
+            resultado.close();
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
